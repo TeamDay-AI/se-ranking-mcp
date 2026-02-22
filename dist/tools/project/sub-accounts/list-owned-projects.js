@@ -1,0 +1,15 @@
+import { z } from 'zod';
+import { ApiType, BaseTool } from '../../base-tool.js';
+export class ListOwnedProjects extends BaseTool {
+    apiType = ApiType.PROJECT;
+    registerTool(server) {
+        server.registerTool(this.toolName('listOwnedProjects'), {
+            title: 'List Owned Projects',
+            description: 'Project Tool: Get a list of website IDs that belong to a sub-account.',
+            inputSchema: {
+                id: z.number().int().describe('Unique sub-account ID'),
+            },
+        }, async (params) => this.makeGetRequest(`/users/${params.id}/own-sites`, {}));
+    }
+}
+//# sourceMappingURL=list-owned-projects.js.map

@@ -4,7 +4,8 @@ bin-release/
 [Oo]bj/
 [Bb]in/
 node_modules/
-dist/
+# dist/ committed so GitHub dependency works without build step
+# dist/
 
 # Other files and folders
 .settings/

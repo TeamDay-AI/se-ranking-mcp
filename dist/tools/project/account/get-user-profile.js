@@ -1,0 +1,12 @@
+import { ApiType, BaseTool } from '../../base-tool.js';
+export class GetUserProfile extends BaseTool {
+    apiType = ApiType.PROJECT;
+    registerTool(server) {
+        server.registerTool(this.toolName('getUserProfile'), {
+            title: 'Get User Profile',
+            description: 'Project Tool: Get information about the currently logged in user including email, name, language, and avatar.',
+            inputSchema: {},
+        }, async () => this.makeGetRequest('/account/profile', {}));
+    }
+}
+//# sourceMappingURL=get-user-profile.js.map
