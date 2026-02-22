@@ -7,11 +7,7 @@ import express from 'express';
 
 import { DATA_API_TOKEN, PROJECT_API_TOKEN } from './constants.js';
 import { SeoApiMcpServer } from './seo-api-mcp-server.js';
-
-function extractTokenFromHeader(authorization?: string) {
-  const m = authorization?.match(/^Bearer\s+(.+)$/i);
-  return m?.[1]?.trim();
-}
+import { tokenStore } from './token-store.js';
 
 function isAuthenticationRequired(req: express.Request) {
   return req.body.method !== 'tools/list';
@@ -40,61 +36,66 @@ app.use((req, _res, next) => {
 
 // catch all requests for MCP requests
 app.all('/mcp', async (req, res) => {
-  const bearer = extractTokenFromHeader(req.headers.authorization);
-  const token = bearer || DATA_API_TOKEN || PROJECT_API_TOKEN;
+  // Read per-request tokens from custom headers, falling back to env vars
+  const dataToken =
+    (req.headers['x-data-api-token'] as string) || DATA_API_TOKEN || '';
+  const projectToken =
+    (req.headers['x-project-api-token'] as string) || PROJECT_API_TOKEN || '';
 
-  if (isAuthenticationRequired(req) && !token) {
+  if (isAuthenticationRequired(req) && !dataToken && !projectToken) {
     console.warn('Empty token! MCP request received:', req.method, req.url);
-    return res.status(401).json({ error: 'Missing API Token (Bearer of DATA/PROJECT env)' });
+    return res.status(401).json({ error: 'Missing API Token (X-Data-Api-Token / X-Project-Api-Token header or env)' });
   }
 
-  const server = new McpServer({ name: 'ser-data-api-mcp-server', version: '1.0.0' });
+  // Run inside AsyncLocalStorage context so all BaseTool.getToken() calls
+  // resolve to the per-request credentials
+  await tokenStore.run({ data: dataToken, project: projectToken }, async () => {
+    const server = new McpServer({ name: 'ser-data-api-mcp-server', version: '1.0.0' });
+    new SeoApiMcpServer(server).init();
 
-  // here we set up the token provider for the SeoApiMcpServer, which is fetched from the request
-  new SeoApiMcpServer(server).init();
+    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
 
-  const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+    let cleaned = false;
 
-  let cleaned = false;
+    const cleanup = async () => {
+      if (cleaned) return;
+      cleaned = true;
+      try {
+        await transport.close();
+      } catch { }
+      try {
+        await server.close();
+      } catch { }
+    };
 
-  const cleanup = async () => {
-    if (cleaned) return;
-    cleaned = true;
+    res.on('close', () => {
+      void cleanup().catch(console.error);
+    });
+
+    res.on('finish', () => {
+      void cleanup().catch(console.error);
+    });
+
     try {
-      await transport.close();
-    } catch { }
-    try {
-      await server.close();
-    } catch { }
-  };
+      await server.connect(transport);
+      await transport.handleRequest(req, res, req.body);
+    } catch (err) {
+      console.error(
+        'MCP Server Error:',
+        err,
+        req.method,
+        req.url,
+        'headers:',
+        JSON.stringify(req.headers),
+        'body:',
+        JSON.stringify(req.body),
+      );
 
-  res.on('close', () => {
-    void cleanup().catch(console.error);
+      void cleanup().catch(console.error);
+
+      if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
+    }
   });
-
-  res.on('finish', () => {
-    void cleanup().catch(console.error);
-  });
-
-  try {
-    await server.connect(transport);
-    await transport.handleRequest(req, res, req.body);
-  } catch (err) {
-    console.error(
-      'MCP Server Error:',
-      err,
-      req.method,
-      req.url,
-      'headers:',
-      JSON.stringify(req.headers),
-      'body:',
-      JSON.stringify(req.body),
-    );
-
-    void cleanup().catch(console.error);
-
-    if (!res.headersSent) res.status(500).json({ error: 'Internal server error' });
-  }
 });
 
 app.get('/', (_req, res) => {

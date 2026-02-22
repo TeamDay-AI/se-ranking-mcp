@@ -10,9 +10,11 @@ export enum ApiType {
 
 export type ToolKind = 'read' | 'write' | 'writeIdempotent' | 'destructive';
 
-let tokenProvider: (() => string) | null = null;
+type TokenProvider = (apiType: ApiType) => string | undefined;
 
-export function setTokenProvider(provider: (() => string) | null) {
+let tokenProvider: TokenProvider | null = null;
+
+export function setTokenProvider(provider: TokenProvider | null) {
   tokenProvider = provider;
 }
 
@@ -75,7 +77,7 @@ export abstract class BaseTool {
 
   protected getToken(): string | undefined {
     if (tokenProvider) {
-      return tokenProvider();
+      return tokenProvider(this.apiType);
     }
     if (this.apiType === ApiType.DATA) {
       return (
