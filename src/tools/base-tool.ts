@@ -281,7 +281,7 @@ export abstract class BaseTool {
 
       if (Array.isArray(value)) {
         for (const v of value) {
-          if (v !== undefined && v !== null) query.append(key, String(v));
+          if (v !== undefined && v !== null) query.append(`${key}[]`, String(v));
         }
       } else {
         query.append(key, String(value));
