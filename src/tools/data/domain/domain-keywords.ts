@@ -51,7 +51,7 @@ export class GetDomainKeywords extends BaseTool {
               'Specifies whether to retrieve keywords for organic search traffic or paid search (advertising) traffic.',
             ),
           order_field: z
-            .enum(['traffic', 'volume', 'position', 'cpc', 'competition', 'kei'])
+            .enum(['traffic', 'volume', 'position', 'cpc', 'competition', 'kei', 'difficulty'])
             .optional()
             .default('traffic')
             .describe('The field by which the returned keyword list should be sorted.'),
