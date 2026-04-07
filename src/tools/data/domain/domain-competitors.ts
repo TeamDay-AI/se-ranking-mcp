@@ -20,6 +20,10 @@ export class GetDomainCompetitors extends BaseTool {
             .string()
             .min(1, 'domain is required')
             .describe('The primary domain for which to find competitors.'),
+          url: z
+            .string()
+            .optional()
+            .describe('A specific URL to find competitors for, instead of the entire domain.'),
           type: z
             .enum(['organic', 'adv'])
             .optional()

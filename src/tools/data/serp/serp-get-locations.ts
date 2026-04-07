@@ -19,6 +19,10 @@ export class GetSerpLocations extends BaseTool {
             .describe(
               'Alpha-2 country code for the regional prompt database (e.g., us for United States results).',
             ),
+          include: z
+            .string()
+            .optional()
+            .describe('Additional data to include in the response. Can be set to "google_ads_location_id".'),
         },
       },
       async (params) => this.makeGetRequest('/v1/serp/classic/locations', params),

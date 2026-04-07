@@ -22,6 +22,8 @@ export class GetIssuesByUrl extends BaseTool {
             .string()
             .optional()
             .describe('Full page URL. Either url or url_id must be provided.'),
+          limit: z.number().int().positive().optional().describe('Maximum number of results to return.'),
+          offset: z.number().int().min(0).optional().describe('Number of results to skip for pagination.'),
         },
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/issues', params),
