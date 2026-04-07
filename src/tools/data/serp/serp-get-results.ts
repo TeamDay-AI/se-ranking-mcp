@@ -36,6 +36,12 @@ export class GetSerpResults extends BaseTool {
             .array(z.string().min(1, 'query is empty').max(1000, 'too many queries'))
             .describe('List of queries'),
           tag: z.string().max(255, 'tag is too long (max 255 chars)').optional().describe('Tag'),
+          pingback_url: z
+            .string()
+            .optional()
+            .describe(
+              'URL to receive a pingback when the task is complete. Supports $id and $tag placeholders that will be substituted with the task ID and tag (e.g., "https://example.com/callback?id=$id&user_tag=$tag").',
+            ),
           poll_interval_ms: z
             .number()
             .int()
@@ -66,6 +72,7 @@ export class GetSerpResults extends BaseTool {
           location_id: number;
           query: string[];
           tag?: string;
+          pingback_url?: string;
           poll_interval_ms: number;
           max_wait_ms: number;
           result_type: 'standard' | 'advanced';
@@ -79,6 +86,7 @@ export class GetSerpResults extends BaseTool {
           location_id,
           query,
           tag,
+          pingback_url,
           poll_interval_ms,
           max_wait_ms,
           result_type,
@@ -112,6 +120,7 @@ export class GetSerpResults extends BaseTool {
           query,
         };
         if (tag) form.tag = tag;
+        if (pingback_url) form.pingback_url = pingback_url;
 
         const tasks = await this.addSerpTask(form);
 

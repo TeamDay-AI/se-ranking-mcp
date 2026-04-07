@@ -14,6 +14,7 @@ export class ExportBacklinksData extends BaseTool {
         inputSchema: {
           target: z.string().describe('Aim of the request: root domain, host, or URL.'),
           mode: z.enum(['domain', 'host', 'url']).optional().default('host'),
+          output: z.enum(['json', 'xml']).optional().describe('Output format for the export.'),
         },
       },
       async (params) => this.makeGetRequest('/v1/backlinks/export', params),

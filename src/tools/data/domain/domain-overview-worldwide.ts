@@ -35,6 +35,10 @@ export class GetDomainOverviewWorldwide extends BaseTool {
             .describe(
               'A comma-separated list specifying which data fields or categories to include in the response. This allows for tailoring the response to only the needed information.',
             ),
+          with_subdomains: z
+            .boolean()
+            .optional()
+            .describe('Whether to include subdomain data in the results.'),
           show_zones_list: z
             .number()
             .int()
