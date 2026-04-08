@@ -63,9 +63,9 @@ import { GetIssuesByUrl } from './tools/data/website-audit/get-issues-by-url.js'
 import { ListAudits } from './tools/data/website-audit/list-audits.js';
 import { RecheckAudit } from './tools/data/website-audit/recheck-audit.js';
 import { UpdateAuditTitle } from './tools/data/website-audit/update-audit-title.js';
+import { GetCreditBalance } from './tools/data/account/get-credit-balance.js';
+import { GetSubscription } from './tools/data/account/get-subscription.js';
 // Account Tools
-import { GetAccountBalance } from './tools/project/account/get-account-balance.js';
-import { GetSubscription } from './tools/project/account/get-subscription.js';
 import { GetUserProfile } from './tools/project/account/get-user-profile.js';
 // AIRT (AI Result Tracker)
 import { GetSiteBrand } from './tools/project/airt/brands/get-site-brand.js';
@@ -247,6 +247,8 @@ export class SeoApiMcpServer {
     GetSerpTaskAdvancedResults,
     GetSerpTaskResults,
     GetSerpTasks,
+    GetSubscription,
+    GetCreditBalance,
   ];
 
   private projectTools = [
@@ -294,9 +296,7 @@ export class SeoApiMcpServer {
     GetGoogleSearchConsole,
     GetSeoPotential,
     // Account
-    GetAccountBalance,
     GetUserProfile,
-    GetSubscription,
     // Sub-Accounts
     ListSubAccounts,
     GetSubAccountDetails,
