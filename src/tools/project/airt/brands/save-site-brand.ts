@@ -16,6 +16,7 @@ export class SaveSiteBrand extends BaseTool {
                     site_id: z.number().int().describe('Site ID'),
                     brand: z.string().min(1).max(255).describe('Brand name to save (non-empty, max 255 characters)'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; brand: string }) =>
                 this.makeJsonPostRequest(`/sites/${params.site_id}/airt/brands`, { brand: params.brand }),

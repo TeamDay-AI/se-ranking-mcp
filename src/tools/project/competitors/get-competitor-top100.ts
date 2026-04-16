@@ -19,6 +19,7 @@ export class GetCompetitorTop100 extends BaseTool {
                     keyword_id: z.number().describe('The ID of the keyword added to the project'),
                     top: z.number().min(0).max(100).optional().describe('Maximum position (0..100)'),
                 },
+                annotations: this.annotations('read'),
             },
             async (args: { site_id: number; date: string; site_engine_id: number; keyword_id: number; top?: number }) => {
                 const { site_id, ...params } = args;

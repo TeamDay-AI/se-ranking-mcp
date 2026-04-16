@@ -18,6 +18,7 @@ export class GetBacklinksExportStatus extends BaseTool {
             .describe('The task ID returned from the exportBacklinksData method (e.g., "1_878619").'),
           output: z.enum(['json', 'xml']).optional().describe('Output format for the export status response.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/export/status', params),
     );

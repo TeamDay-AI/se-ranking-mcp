@@ -1,6 +1,8 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { Prompts } from './prompts.js';
+import { GetCreditBalance } from './tools/data/account/get-credit-balance.js';
+import { GetSubscription } from './tools/data/account/get-subscription.js';
 import { GetAiDiscoverBrand } from './tools/data/ai-search/ai-search-discover-brand.js';
 import { GetAiOverview } from './tools/data/ai-search/ai-search-overview.js';
 import { GetAiOverviewLeaderboard } from './tools/data/ai-search/ai-search-overview-leaderboard.js';
@@ -63,8 +65,6 @@ import { GetIssuesByUrl } from './tools/data/website-audit/get-issues-by-url.js'
 import { ListAudits } from './tools/data/website-audit/list-audits.js';
 import { RecheckAudit } from './tools/data/website-audit/recheck-audit.js';
 import { UpdateAuditTitle } from './tools/data/website-audit/update-audit-title.js';
-import { GetCreditBalance } from './tools/data/account/get-credit-balance.js';
-import { GetSubscription } from './tools/data/account/get-subscription.js';
 // Account Tools
 import { GetUserProfile } from './tools/project/account/get-user-profile.js';
 // AIRT (AI Result Tracker)
@@ -77,6 +77,14 @@ import { GetLlmStatistics } from './tools/project/airt/llm/get-llm-statistics.js
 import { GetLlmStatus } from './tools/project/airt/llm/get-llm-status.js';
 import { ListLlmEngines } from './tools/project/airt/llm/list-llm-engines.js';
 import { UpdateLlmEngine } from './tools/project/airt/llm/update-llm-engine.js';
+import { ChangePromptGroupOrder } from './tools/project/airt/prompt-groups/change-prompt-group-order.js';
+import { CreatePromptGroup } from './tools/project/airt/prompt-groups/create-prompt-group.js';
+import { DeleteAllPromptsInGroup } from './tools/project/airt/prompt-groups/delete-all-prompts-in-group.js';
+import { DeletePromptGroup } from './tools/project/airt/prompt-groups/delete-prompt-group.js';
+import { ListPromptGroups } from './tools/project/airt/prompt-groups/list-prompt-groups.js';
+import { MovePromptsBetweenGroups } from './tools/project/airt/prompt-groups/move-prompts-between-groups.js';
+import { MovePromptsToGroup } from './tools/project/airt/prompt-groups/move-prompts-to-group.js';
+import { UpdatePromptGroup } from './tools/project/airt/prompt-groups/update-prompt-group.js';
 import { AddPrompts } from './tools/project/airt/prompts/add-prompts.js';
 import { DeletePrompts } from './tools/project/airt/prompts/delete-prompts.js';
 import { GetPromptAnswer } from './tools/project/airt/prompts/get-prompt-answer.js';
@@ -136,6 +144,8 @@ import { DeleteKeywords } from './tools/project/project-management/delete-keywor
 import { DeleteProject } from './tools/project/project-management/delete-project.js';
 import { DeleteSearchEngine } from './tools/project/project-management/delete-search-engine.js';
 import { GetAdsStats } from './tools/project/project-management/get-ads-stats.js';
+import { GetChart } from './tools/project/project-management/get-chart.js';
+import { GetCheckDates } from './tools/project/project-management/get-check-dates.js';
 import { GetHistoricalDates } from './tools/project/project-management/get-historical-dates.js';
 import { GetKeywordStats } from './tools/project/project-management/get-keyword-stats.js';
 import { GetSearchEngines } from './tools/project/project-management/get-search-engines.js';
@@ -145,6 +155,7 @@ import { ListKeywords } from './tools/project/project-management/list-keywords.j
 import { ListProjects } from './tools/project/project-management/list-projects.js';
 import { RunPositionCheck } from './tools/project/project-management/run-position-check.js';
 import { SetKeywordPosition } from './tools/project/project-management/set-keyword-position.js';
+import { UpdateKeyword } from './tools/project/project-management/update-keyword.js';
 import { UpdateProject } from './tools/project/project-management/update-project.js';
 import { UpdateSearchEngine } from './tools/project/project-management/update-search-engine.js';
 import { CreateSubAccount } from './tools/project/sub-accounts/create-sub-account.js';
@@ -265,8 +276,11 @@ export class SeoApiMcpServer {
     RunPositionCheck,
     GetSearchEngines,
     ListKeywords,
+    UpdateKeyword,
     SetKeywordPosition,
     GetHistoricalDates,
+    GetCheckDates,
+    GetChart,
     AddSearchEngine,
     UpdateSearchEngine,
     DeleteSearchEngine,
@@ -350,6 +364,14 @@ export class SeoApiMcpServer {
     ListPrompts,
     AddPrompts,
     DeletePrompts,
+    ListPromptGroups,
+    CreatePromptGroup,
+    UpdatePromptGroup,
+    DeletePromptGroup,
+    ChangePromptGroupOrder,
+    DeleteAllPromptsInGroup,
+    MovePromptsToGroup,
+    MovePromptsBetweenGroups,
     // Website Audit (Project API)
     ProjectCreateAudit,
     ProjectListAudits,

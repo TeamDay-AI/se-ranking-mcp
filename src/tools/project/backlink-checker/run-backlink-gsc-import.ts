@@ -15,6 +15,7 @@ export class RunBacklinkGscImport extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number }) =>
                 this.makeJsonPostRequest(`/backlinks/${params.site_id}/import-gsc`, {}),

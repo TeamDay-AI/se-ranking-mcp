@@ -42,6 +42,7 @@ export class GetDomainCompetitors extends BaseTool {
               'A flag to control the level of detail in the response. If set to “1”, additional statistical parameters are returned for each competitor.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/domain/competitors', params),
     );

@@ -15,6 +15,7 @@ export class GetSubAccountDetails extends BaseTool {
                 inputSchema: {
                     id: z.number().int().describe('Unique sub-account ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { id: number }) =>
                 this.makeGetRequest(`/users/${params.id}`, {}),

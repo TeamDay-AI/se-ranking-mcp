@@ -20,6 +20,7 @@ export class AddProjectBacklink extends BaseTool {
                     charge_period: z.enum(['onetime', 'monthly', 'quarterly', '6months', 'year']).optional().describe('Payment period'),
                     charge_start: z.string().optional().describe('Payment start date (YYYY-MM-DD)'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 site_id: number;

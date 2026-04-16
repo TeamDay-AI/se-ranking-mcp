@@ -51,6 +51,7 @@ export class CreateStandardAudit extends BaseTool {
             .optional()
             .describe('Object containing specific audit settings.'),
         },
+        annotations: this.annotations('write'),
       },
       async (params) =>
         // The API expects JSON body according to the curl example in the prompt.

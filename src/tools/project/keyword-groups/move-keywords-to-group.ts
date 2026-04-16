@@ -16,6 +16,7 @@ export class MoveKeywordsToGroup extends BaseTool {
                     group_id: z.number().int().describe('ID of the destination keyword group'),
                     keywords_ids: z.array(z.number().int()).describe('Array of the IDs of keywords to be transferred'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ group_id, keywords_ids }: { group_id: number; keywords_ids: number[] }) => 
                 // POST /keyword-groups/{group_id}/keywords

@@ -39,6 +39,7 @@ export class ProjectListAudits extends BaseTool {
                         .optional()
                         .describe('End date for filtering audits (YYYY-MM-DD).'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/audit/list', params),
         );

@@ -14,6 +14,7 @@ export class DeleteAudit extends BaseTool {
         inputSchema: {
           audit_id: z.number().int().describe('Unique identifier of the audit to delete.'),
         },
+        annotations: this.annotations('destructive'),
       },
       async (params) => this.makeDeleteRequest('/v1/site-audit/audits', params),
     );

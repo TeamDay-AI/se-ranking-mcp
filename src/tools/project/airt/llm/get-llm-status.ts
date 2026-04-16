@@ -16,6 +16,7 @@ export class GetLlmStatus extends BaseTool {
                     site_id: z.number().int().describe('Site ID'),
                     id: z.number().int().describe('LLM Engine ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number; id: number }) =>
                 this.makeGetRequest(`/sites/${params.site_id}/airt/llm/${params.id}/status`, {}),

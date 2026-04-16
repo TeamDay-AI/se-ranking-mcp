@@ -1,15 +1,14 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { ErrorCode, McpError, type ToolAnnotations } from '@modelcontextprotocol/sdk/types.js';
 
-import {
-  DATA_API_BASE,
-  PROJECT_API_BASE,
-} from '../constants.js';
+import { DATA_API_BASE, PROJECT_API_BASE } from '../constants.js';
 
 export enum ApiType {
   DATA = 'DATA',
   PROJECT = 'PROJECT',
 }
+
+export type ToolKind = 'read' | 'write' | 'writeIdempotent' | 'destructive';
 
 let tokenProvider: (() => string) | null = null;
 
@@ -38,6 +37,20 @@ export abstract class BaseTool {
 
   protected toolName(name: string): string {
     return `${this.apiType}_${name}`;
+  }
+
+  protected annotations(kind: ToolKind): ToolAnnotations {
+    const base: ToolAnnotations = { openWorldHint: false };
+    switch (kind) {
+      case 'read':
+        return { ...base, readOnlyHint: true, idempotentHint: true };
+      case 'write':
+        return { ...base, readOnlyHint: false, destructiveHint: false, idempotentHint: false };
+      case 'writeIdempotent':
+        return { ...base, readOnlyHint: false, destructiveHint: false, idempotentHint: true };
+      case 'destructive':
+        return { ...base, readOnlyHint: false, destructiveHint: true, idempotentHint: true };
+    }
   }
 
   protected log(
@@ -257,20 +270,38 @@ export abstract class BaseTool {
     }
 
     let pretty = text;
+    let parsed: unknown;
+    let parsedOk = false;
 
     try {
-      const json = JSON.parse(text);
-      pretty = JSON.stringify(json, null, 2);
+      parsed = JSON.parse(text);
+      pretty = JSON.stringify(parsed, null, 2);
+      parsedOk = true;
     } catch (err: any) {
       this.log(
         'warning',
         `Failed to pretty-print JSON response: ${err?.message || String(err)}. Response text: ${text}`,
       );
-      // If it's not JSON, we just return the text as is, or maybe we should fail if we expect JSON?
-      // The original code just returned the text if it failed to parse/pretty-print.
     }
 
-    return { content: [{ type: 'text' as const, text: pretty }] };
+    const result: {
+      content: { type: 'text'; text: string }[];
+      structuredContent?: Record<string, unknown>;
+    } = {
+      content: [{ type: 'text' as const, text: pretty }],
+    };
+
+    // MCP structuredContent must be an object. Pass objects through; wrap arrays as { data: [...] };
+    // skip primitives and null since they can't be represented as Record<string, unknown>.
+    if (parsedOk && parsed !== null) {
+      if (Array.isArray(parsed)) {
+        result.structuredContent = { data: parsed };
+      } else if (typeof parsed === 'object') {
+        result.structuredContent = parsed as Record<string, unknown>;
+      }
+    }
+
+    return result;
   }
 
   private getUrlSearchParamsFromParams(queryParams: Record<string, unknown>) {

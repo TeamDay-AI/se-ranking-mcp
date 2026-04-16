@@ -16,6 +16,7 @@ export class DeleteBacklinkGroup extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     group_id: z.number().int().describe('Backlink group ID to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; group_id: number }) =>
                 this.makeDeleteRequest(`/backlink-groups/${params.site_id}`, { id: params.group_id }),

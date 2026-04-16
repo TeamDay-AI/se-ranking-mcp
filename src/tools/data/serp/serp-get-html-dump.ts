@@ -24,6 +24,7 @@ export class GetSerpHtmlDump extends BaseTool {
             .positive()
             .describe('The unique ID of the query task from the Add SERP tasks method.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/serp/classic/tasks/html', params),
     );

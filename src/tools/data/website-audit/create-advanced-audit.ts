@@ -51,6 +51,7 @@ export class CreateAdvancedAudit extends BaseTool {
             .optional()
             .describe('Object containing specific audit settings.'),
         },
+        annotations: this.annotations('write'),
       },
       async (params) => this.makeJsonPostRequest('/v1/site-audit/audits/advanced', params),
     );

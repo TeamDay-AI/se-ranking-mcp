@@ -31,6 +31,7 @@ export class GetAiDiscoverBrand extends BaseTool {
             'Alpha-2 country code for the regional prompt database (e.g., us for United States results).',
           ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/ai-search/discover-brand', params),
     );

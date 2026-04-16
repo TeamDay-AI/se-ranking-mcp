@@ -16,6 +16,7 @@ export class DeleteProjectBacklinks extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     backlink_ids: z.array(z.number().int()).describe('Array of backlink IDs to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; backlink_ids: number[] }) => {
                 const { site_id, backlink_ids } = params;

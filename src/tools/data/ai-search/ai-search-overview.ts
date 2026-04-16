@@ -43,6 +43,7 @@ export class GetAiOverview extends BaseTool {
               'Brand name to search for. If omitted, uses the internally determined brand for the domain.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => {
         const { engine } = params;

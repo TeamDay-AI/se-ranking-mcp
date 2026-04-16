@@ -27,6 +27,7 @@ export class AddKeywords extends BaseTool {
                         )
                         .describe('List of keywords to add'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ site_id, keywords }: { site_id: number; keywords: Array<{
                 keyword: string;

@@ -17,6 +17,7 @@ export class GetReferringIps extends BaseTool {
           order_by: z.enum(['backlinks', 'refdomains']).optional().default('backlinks'),
           limit: z.number().int().min(1).max(10000).optional().default(100),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/referring-ips', params),
     );

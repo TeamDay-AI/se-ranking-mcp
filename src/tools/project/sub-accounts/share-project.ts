@@ -16,6 +16,7 @@ export class ShareProject extends BaseTool {
                     id: z.number().int().describe('Unique sub-account ID'),
                     site_ids: z.array(z.number().int()).describe('Array of website IDs to share'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { id: number; site_ids: number[] }) =>
                 this.makeJsonPostRequest(`/users/${params.id}/shared-sites`, params.site_ids),

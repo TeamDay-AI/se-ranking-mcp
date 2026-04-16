@@ -1,12 +1,17 @@
+import { createRequire } from 'node:module';
+
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
+import { instructions } from './instructions.js';
 import { SeoApiMcpServer } from './seo-api-mcp-server.js';
 
-const server = new McpServer({
-  name: 'ser-data-api-mcp-server',
-  version: '1.0.0',
-});
+const pkg = createRequire(import.meta.url)('../package.json') as {
+  name: string;
+  version: string;
+};
+
+const server = new McpServer({ name: pkg.name, version: pkg.version }, { instructions });
 
 async function runServer() {
   const transport = new StdioServerTransport();

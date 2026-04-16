@@ -15,6 +15,7 @@ export class ListCompetitors extends BaseTool {
                 inputSchema: {
                     site_id: z.number().describe('Unique project ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (args: { site_id: number }) => this.makeGetRequest(`/competitors/site/${args.site_id}`, {}),
         );

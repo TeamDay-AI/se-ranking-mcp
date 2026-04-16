@@ -16,6 +16,7 @@ export class DeleteTag extends BaseTool {
                     site_id: z.number().int().describe('Website ID'),
                     tag_id: z.number().int().describe('Tag ID'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; tag_id: number }) => 
                 // DELETE /sites/{site_id}/url-tags/{tag_id}

@@ -16,6 +16,7 @@ export class MoveProjectsToGroup extends BaseTool {
                     group_id: z.number().int().describe('ID of the destination project group'),
                     site_ids: z.array(z.number().int()).describe('Array of website IDs to transfer'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ group_id, site_ids }: { group_id: number; site_ids: number[] }) => 
                 // POST https://api4.seranking.com/site-groups/{group_id}/sites

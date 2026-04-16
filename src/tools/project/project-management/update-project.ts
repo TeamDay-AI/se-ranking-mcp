@@ -26,6 +26,7 @@ export class UpdateProject extends BaseTool {
                     check_day: z.number().int().optional().describe('Day of week (1-7) or day of month (1-31)'),
                     is_active: z.enum(['0', '1']).optional().describe('Project status 1 – active, 0 – delayed'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async ({ site_id, ...params }: {
                 site_id: number;
@@ -38,15 +39,7 @@ export class UpdateProject extends BaseTool {
                 site_group_id?: number;
                 check_day?: number;
                 is_active?: '0' | '1';
-            }) =>
-                // PUT https://api4.seranking.com/sites/{site_id}
-                // Body: {"title":"new site title"}
-                this.makeJsonRequestWithPut(`/sites/${site_id}`, params)
-            ,
+            }) => this.makePutRequest(`/sites/${site_id}`, params),
         );
-    }
-
-    protected async makeJsonRequestWithPut(path: string, body: Record<string, unknown>) {
-        return this.request(path, 'PUT', body);
     }
 }

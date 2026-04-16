@@ -26,6 +26,7 @@ export class ListNewLostReferringDomains extends BaseTool {
             .default('new_lost_date'),
           limit: z.number().int().min(1).max(10000).optional().default(100),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/refdomains/history', params),
     );

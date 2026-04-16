@@ -15,6 +15,7 @@ export class ListSharedProjects extends BaseTool {
                 inputSchema: {
                     id: z.number().int().describe('Unique sub-account ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { id: number }) =>
                 this.makeGetRequest(`/users/${params.id}/shared-sites`, {}),

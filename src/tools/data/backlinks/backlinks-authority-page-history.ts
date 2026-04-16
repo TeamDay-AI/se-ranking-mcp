@@ -21,6 +21,7 @@ export class GetPageAuthorityHistory extends BaseTool {
             .default('by_day')
             .describe('Granularity at which to return data.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/authority/page/history', params),
     );

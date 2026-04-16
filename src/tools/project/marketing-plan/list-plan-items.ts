@@ -15,6 +15,7 @@ export class ListPlanItems extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number }) =>
                 this.makeGetRequest(`/checklist/${params.site_id}`, {}),

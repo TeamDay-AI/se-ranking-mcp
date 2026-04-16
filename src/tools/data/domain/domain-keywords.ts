@@ -261,6 +261,7 @@ export class GetDomainKeywords extends BaseTool {
               'The SERP feature code to check for domain linking (e.g., "sge" for AI Overview, "reviews", "featured_snippet"). Must be used together with filter_serp_features_2_mode.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => {
         const { filter_serp_features_2_mode, filter_serp_features_2_value, ...rest } = params;

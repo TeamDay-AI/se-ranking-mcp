@@ -16,6 +16,7 @@ export class ProjectRecheckAudit extends BaseTool {
                 inputSchema: {
                     audit_id: z.number().int().describe('Unique identifier of the audit to recheck.'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { audit_id: number }) =>
                 this.makeJsonPostRequest(`/audit/${params.audit_id}/recheck`, {}),

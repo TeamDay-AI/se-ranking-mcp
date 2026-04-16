@@ -34,6 +34,7 @@ export class ListAudits extends BaseTool {
             .describe('Start date for filtering audits (YYYY-MM-DD).'),
           date_end: z.string().optional().describe('End date for filtering audits (YYYY-MM-DD).'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits', params),
     );

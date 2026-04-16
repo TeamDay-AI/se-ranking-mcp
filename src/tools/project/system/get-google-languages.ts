@@ -12,6 +12,7 @@ export class GetGoogleLanguages extends BaseTool {
                 title: 'Get Google Languages',
                 description: 'Project Tool: Get a complete list of possible languages for the Google search engine with their codes.',
                 inputSchema: {},
+                annotations: this.annotations('read'),
             },
             async () => this.makeGetRequest('/system/google-langs', {}),
         );

@@ -16,6 +16,7 @@ export class ExportBacklinksData extends BaseTool {
           mode: z.enum(['domain', 'host', 'url']).optional().default('host'),
           output: z.enum(['json', 'xml']).optional().describe('Output format for the export.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/export', params),
     );

@@ -23,6 +23,7 @@ export class GetCumulativeBacklinksHistory extends BaseTool {
             .optional()
             .describe('End date in YYYY-MM-DD format (inclusive range).'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/history/cumulative', params),
     );

@@ -19,6 +19,7 @@ export class GetAllCompetitorsMetrics extends BaseTool {
                     group_id: z.number().optional().describe('Keyword group ID. If not specified, data for all keyword groups will be returned.'),
                     tags: z.array(z.number()).optional().describe('Array of tags'),
                 },
+                annotations: this.annotations('read'),
             },
             async (args: { site_id: number; date: string; site_engine_id: number; group_id?: number; tags?: number[] }) => {
                 const { site_id, ...params } = args;

@@ -12,6 +12,7 @@ export class GetVolumeRegions extends BaseTool {
                 title: 'Get Volume Regions',
                 description: 'Project Tool: Get a list of all regions where SE Ranking can run a keyword search volume check.',
                 inputSchema: {},
+                annotations: this.annotations('read'),
             },
             async () => this.makeGetRequest('/system/volume-regions', {}),
         );

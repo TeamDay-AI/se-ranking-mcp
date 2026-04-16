@@ -20,6 +20,7 @@ export class ProjectUpdateAuditTitle extends BaseTool {
                         .max(300)
                         .describe('The new title for the audit report. Max 300 characters.'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { audit_id: number; title: string }) => {
                 const { audit_id, ...body } = params;

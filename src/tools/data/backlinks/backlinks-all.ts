@@ -124,6 +124,7 @@ export class GetAllBacklinks extends BaseTool {
               "Backlink type filter: 'nofollow_only' or 'dofollow_only'. If omitted, returns all.",
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/all', params),
     );

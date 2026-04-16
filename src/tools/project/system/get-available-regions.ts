@@ -14,8 +14,9 @@ export class GetAvailableRegions extends BaseTool {
                 inputSchema: {
                     // No parameters required for this endpoint
                 },
+                annotations: this.annotations('read'),
             },
-            async () => 
+            async () =>
                 // Endpoint: GET /system/google-regions
                 // Note: The curl example shows both a 'token' query param and Authorization header.
                 // BaseTool handles the Authorization header automatically.

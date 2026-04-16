@@ -17,6 +17,7 @@ export class RecheckProjectBacklinks extends BaseTool {
                     backlink_ids: z.array(z.number().int()).describe('Array of backlink IDs to recheck'),
                     recheck_type: z.enum(['status', 'index']).optional().describe('Check type (default: status)'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number; backlink_ids: number[]; recheck_type?: 'status' | 'index' }) => {
                 const { site_id, ...body } = params;

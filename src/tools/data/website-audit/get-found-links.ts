@@ -34,6 +34,7 @@ export class GetFoundLinks extends BaseTool {
             .optional()
             .describe('Array of filter objects to build complex queries.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => {
         const { filter, ...rest } = params;

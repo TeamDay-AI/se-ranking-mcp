@@ -18,6 +18,7 @@ export class UpdateLlmEngine extends BaseTool {
                     region_name: z.string().nullable().optional().describe('Region/locality name (e.g. "Los Angeles, CA, USA"). Set to null to clear.'),
                     lang_code: z.string().nullable().optional().describe('Language code (e.g. "es"). Set to null to clear.'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: {
                 site_id: number;

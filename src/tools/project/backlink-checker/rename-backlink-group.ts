@@ -17,6 +17,7 @@ export class RenameBacklinkGroup extends BaseTool {
                     group_id: z.number().int().describe('Backlink group ID to rename'),
                     name: z.string().describe('New name for the backlink group'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; group_id: number; name: string }) => {
                 const { site_id, group_id, name } = params;

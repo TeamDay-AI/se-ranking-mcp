@@ -20,6 +20,7 @@ export class ProjectGetAuditHistory extends BaseTool {
                         .regex(/^\d{4}-\d{2}-\d{2}$/)
                         .describe('The specific date of the historical audit to retrieve (YYYY-MM-DD).'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ audit_id, ...params }: { audit_id: number; date: string }) =>
                 this.makeGetRequest(`/audit/${audit_id}/history`, params),

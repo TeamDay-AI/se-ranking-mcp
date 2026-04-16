@@ -15,6 +15,7 @@ export class DeleteProject extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Unique site ID to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async ({ site_id }: { site_id: number }) => this.makeDeleteRequest(`/sites/${site_id}`, {}),
         );

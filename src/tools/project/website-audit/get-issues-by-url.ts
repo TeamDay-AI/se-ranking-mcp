@@ -22,6 +22,7 @@ export class ProjectGetIssuesByUrl extends BaseTool {
                         .describe('The unique identifier of the page, obtained from the pages endpoint.'),
                     url: z.string().optional().describe('The URL of the page.'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ audit_id, ...params }: { audit_id: number; url_id?: number; url?: string }) =>
                 this.makeGetRequest(`/audit/${audit_id}/issues`, params),

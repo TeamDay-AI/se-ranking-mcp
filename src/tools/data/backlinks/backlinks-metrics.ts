@@ -34,6 +34,7 @@ export class GetBacklinksMetrics extends BaseTool {
                         .default('json')
                         .describe('Response format. Default: json.'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/v1/backlinks/metrics', params),
         );

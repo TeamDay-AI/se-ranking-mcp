@@ -25,6 +25,7 @@ export class GetIssuesByUrl extends BaseTool {
           limit: z.number().int().positive().optional().describe('Maximum number of results to return.'),
           offset: z.number().int().min(0).optional().describe('Number of results to skip for pagination.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/issues', params),
     );

@@ -16,6 +16,7 @@ export class DeletePlanTask extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     task_id: z.string().describe('Task ID to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; task_id: string }) =>
                 this.makeDeleteRequest(`/checklist/${params.site_id}/task/${params.task_id}`, {}),

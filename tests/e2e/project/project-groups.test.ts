@@ -57,7 +57,7 @@ describe('End-to-End Project Groups (v4) Coverage', () => {
         const groups = JSON.parse(listResult.content[0].text);
 
         console.log(`Listed ${groups.length} groups.`);
-        const foundGroup = groups.find((g: any) => g.id === groupId); // ID might be string or number
+        const foundGroup = groups.find((g: any) => String(g.id) === String(groupId));
         expect(foundGroup).toBeDefined();
         expect(foundGroup.name).toBe(testGroupName);
         console.log('✅ Verified group exists in list');
@@ -73,7 +73,7 @@ describe('End-to-End Project Groups (v4) Coverage', () => {
         // Verify update
         const listResultAfterUpdate = await listHandler({});
         const groupsAfterUpdate = JSON.parse(listResultAfterUpdate.content[0].text);
-        const updatedGroup = groupsAfterUpdate.find((g: any) => g.id === groupId);
+        const updatedGroup = groupsAfterUpdate.find((g: any) => String(g.id) === String(groupId));
         expect(updatedGroup.name).toBe(newName);
         console.log('✅ Verified group name updated');
 
@@ -87,7 +87,7 @@ describe('End-to-End Project Groups (v4) Coverage', () => {
         // Verify deletion
         const listResultFinal = await listHandler({});
         const groupsFinal = JSON.parse(listResultFinal.content[0].text);
-        const deletedGroup = groupsFinal.find((g: any) => g.id === groupId);
+        const deletedGroup = groupsFinal.find((g: any) => String(g.id) === String(groupId));
         expect(deletedGroup).toBeUndefined();
         console.log('✅ Verified group deleted');
 

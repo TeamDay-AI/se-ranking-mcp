@@ -15,6 +15,7 @@ export class DeleteSubAccount extends BaseTool {
                 inputSchema: {
                     id: z.number().int().describe('Unique sub-account ID to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { id: number }) =>
                 this.makeDeleteRequest(`/users/${params.id}`, {}),

@@ -48,6 +48,7 @@ export class ExportKeywords extends BaseTool {
               'A comma-separated list of specific response parameter names to include in the output for each keyword. If omitted, all available data points are returned.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params: {
         source: string;

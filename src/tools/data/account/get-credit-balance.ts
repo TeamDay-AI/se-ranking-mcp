@@ -10,6 +10,7 @@ export class GetCreditBalance extends BaseTool {
                 title: 'Get Credit Balance',
                 description: 'Data Tool: Get the current account credit balance including total limit and used credits.',
                 inputSchema: {},
+                annotations: this.annotations('read'),
             },
             async () => this.makeGetRequest('/v1/account/credit-balance', {}),
         );

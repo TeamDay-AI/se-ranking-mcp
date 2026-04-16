@@ -21,6 +21,7 @@ export class GetKeywordStats extends BaseTool {
                     with_landing_pages: z.enum(['0', '1']).optional().describe('Include URL info (1)'),
                     with_serp_features: z.enum(['0', '1']).optional().describe('Include SERP features (1)'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => this.makeGetRequest(`/sites/${site_id}/positions`, params),
         );

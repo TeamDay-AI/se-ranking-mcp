@@ -222,6 +222,7 @@ export class ProjectCreateAudit extends BaseTool {
                         .optional()
                         .describe('Object containing specific audit settings. Only include parameters you want to override.'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { domain: string; title?: string; settings?: Record<string, unknown> }) =>
                 this.makeJsonPostRequest('/audit/', params),

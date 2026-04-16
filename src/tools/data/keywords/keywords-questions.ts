@@ -146,6 +146,7 @@ export class GetKeywordQuestions extends BaseTool {
               'Comma-separated list of words that must NOT appear in the keyword.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/keywords/questions', this.transformFilterParams(params)),
     );

@@ -17,6 +17,7 @@ export class GetAuditHistory extends BaseTool {
             .string()
             .describe('Specific date of the historical audit to retrieve (YYYY-MM-DD).'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/history', params),
     );

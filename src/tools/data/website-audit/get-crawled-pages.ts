@@ -26,6 +26,7 @@ export class GetCrawledPages extends BaseTool {
             .default(0)
             .describe('Starting position for the list of pages.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/pages', params),
     );

@@ -16,6 +16,7 @@ export class UpdateProjectGroup extends BaseTool {
                     group_id: z.number().int().describe('ID of the project group to rename'),
                     name: z.string().min(1).describe('New project group name'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async ({ group_id, name }: { group_id: number; name: string }) => 
                 // PUT https://api4.seranking.com/site-groups/{group_id}

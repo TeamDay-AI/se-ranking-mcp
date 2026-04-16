@@ -50,6 +50,7 @@ export class GetDomainOverviewWorldwide extends BaseTool {
               'A boolean-like value (“1” for true, “0” for false) to determine if the response should include a detailed breakdown of statistics for each individual regional zone (country) in addition to the aggregated worldwide statistics.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/domain/overview/worldwide', params),
     );

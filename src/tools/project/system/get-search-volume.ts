@@ -16,6 +16,7 @@ export class GetSearchVolume extends BaseTool {
                     region_id: z.number().int().describe('Region ID (use getVolumeRegions to get available regions)'),
                     keywords: z.array(z.string()).max(10).describe('Array of keywords (max 10)'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { region_id: number; keywords: string[] }) => {
                 const queryParams: Record<string, unknown> = {

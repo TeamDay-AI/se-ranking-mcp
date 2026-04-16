@@ -18,6 +18,7 @@ export class AddCompetitor extends BaseTool {
                     name: z.string().optional().describe('Competitor website name (if not specified, the URL will be used)'),
                     subdomain_match: z.number().int().min(0).max(1).optional().describe('Take subdomains into account (1 – yes , 0 – no)'),
                 },
+                annotations: this.annotations('write'),
             },
             async (args: { site_id: number; url: string; name?: string; subdomain_match?: number }) => {
                 const { site_id, ...params } = args;

@@ -51,6 +51,7 @@ export class GetAiOverviewLeaderboard extends BaseTool {
               'The scope of the analysis. Can be base_domain (domain and all subdomains), domain (specific host), or url (exact URL). Default: base_domain.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => {
         const { primary, competitors, source, engines, scope } = params;

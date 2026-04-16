@@ -23,6 +23,7 @@ export class CreateSubAccount extends BaseTool {
                     limit_balance_amount: z.number().int().optional().describe('Limit value in money'),
                     access: z.array(z.string()).optional().describe('Array of access permissions for the sub-account'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 account_email: string;

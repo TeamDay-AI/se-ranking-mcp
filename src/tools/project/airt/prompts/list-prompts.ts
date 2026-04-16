@@ -17,13 +17,16 @@ export class ListPrompts extends BaseTool {
                     llm_id: z.number().int().describe('LLM Engine ID'),
                     limit: z.number().int().min(1).max(1000).optional().describe('Number of items per page (1-1000, default 100)'),
                     offset: z.number().int().min(0).optional().describe('Offset from the beginning of the list'),
+                    group_ids: z.array(z.number().int()).optional().describe('Filter to prompts in these prompt group IDs'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: {
                 site_id: number;
                 llm_id: number;
                 limit?: number;
                 offset?: number;
+                group_ids?: number[];
             }) => {
                 const { site_id, llm_id, ...queryParams } = params;
                 return this.makeGetRequest(`/sites/${site_id}/airt/llm/${llm_id}/prompts`, queryParams);

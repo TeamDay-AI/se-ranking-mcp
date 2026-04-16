@@ -18,6 +18,7 @@ export class UpdateTag extends BaseTool {
                     urls: z.array(z.string()).optional().describe('List of links'),
                     domains: z.array(z.string()).optional().describe('List of domains'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; tag_ids?: number[]; urls?: string[]; domains?: string[] }) => 
                 // PUT /sites/{site_id}/url-tags

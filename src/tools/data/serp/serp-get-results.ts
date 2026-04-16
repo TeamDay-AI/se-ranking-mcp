@@ -63,6 +63,7 @@ export class GetSerpResults extends BaseTool {
               "Result type: 'standard' for organic/ads/featured_snippet, 'advanced' for all SERP types (costs 10 credits)",
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (
         params: {

@@ -12,6 +12,7 @@ export class GetUserProfile extends BaseTool {
                 title: 'Get User Profile',
                 description: 'Project Tool: Get information about the currently logged in user including email, name, language, and avatar.',
                 inputSchema: {},
+                annotations: this.annotations('read'),
             },
             async () => this.makeGetRequest('/account/profile', {}),
         );

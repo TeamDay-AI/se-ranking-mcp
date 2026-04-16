@@ -28,6 +28,7 @@ export class CreateProject extends BaseTool {
                     check_day: z.number().int().optional().describe('Day of week (1-7) for weekly checks, or day of month (1-31) for monthly checks'),
                     is_active: z.enum(['0', '1']).optional().describe('Project status 1 – active, 0 – delayed'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 url: string;

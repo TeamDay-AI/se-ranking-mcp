@@ -18,6 +18,7 @@ export class MoveBacklinksToGroup extends BaseTool {
                     backlink_ids: z.array(z.number().int()).optional().describe('Array of backlink IDs to move'),
                     group_ids: z.array(z.number().int()).optional().describe('Array of backlink group IDs to move'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 site_id: number;

@@ -24,6 +24,7 @@ export class UpdateSubAccount extends BaseTool {
                     limit_balance_amount: z.number().int().optional().describe('Limit value in money'),
                     access: z.array(z.string()).optional().describe('Array of new access permissions for the sub-account'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: {
                 id: number;
