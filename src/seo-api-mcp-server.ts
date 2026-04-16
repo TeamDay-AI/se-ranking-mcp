@@ -79,6 +79,7 @@ import { ListLlmEngines } from './tools/project/airt/llm/list-llm-engines.js';
 import { UpdateLlmEngine } from './tools/project/airt/llm/update-llm-engine.js';
 import { AddPrompts } from './tools/project/airt/prompts/add-prompts.js';
 import { DeletePrompts } from './tools/project/airt/prompts/delete-prompts.js';
+import { GetPromptAnswer } from './tools/project/airt/prompts/get-prompt-answer.js';
 import { GetPromptsRankings } from './tools/project/airt/prompts/get-prompts-rankings.js';
 import { ListPrompts } from './tools/project/airt/prompts/list-prompts.js';
 // Analytics Tools
@@ -345,6 +346,7 @@ export class SeoApiMcpServer {
     GetLlmStatus,
     GetLlmStatistics,
     GetPromptsRankings,
+    GetPromptAnswer,
     ListPrompts,
     AddPrompts,
     DeletePrompts,
