@@ -18,7 +18,9 @@ export function setTokenProvider(provider: (() => string) | null) {
 
 export abstract class BaseTool {
   private readonly MISSING_TOKEN_MESSAGE = (type: ApiType) =>
-    `Missing ${type === ApiType.DATA ? 'DATA_API_TOKEN' : 'PROJECT_API_TOKEN'}.`;
+    type === ApiType.DATA
+      ? 'Missing DATA_API_TOKEN. Set DATA_API_TOKEN (or fallbacks SERANKING_DATA_API_TOKEN, SERANKING_API_TOKEN).'
+      : 'Missing PROJECT_API_TOKEN. Set PROJECT_API_TOKEN (or SERANKING_PROJECT_API_TOKEN). The Project API requires a separate token from the Data API; SERANKING_API_TOKEN alone is not sufficient.';
 
   abstract registerTool(server: McpServer): void;
 
@@ -241,6 +243,9 @@ export abstract class BaseTool {
       throw new McpError(ErrorCode.InvalidRequest, this.MISSING_TOKEN_MESSAGE(this.apiType));
     }
 
+    // SE Ranking's OpenAPI declares `token` as a query parameter, but we send it as an
+    // Authorization header: secrets in URLs leak into access/proxy logs, referrers, and
+    // error-reporting payloads. The live API accepts both; keep the header.
     const headers = new Headers(init.headers);
     headers.set('Authorization', `Token ${token}`);
     init.headers = headers;

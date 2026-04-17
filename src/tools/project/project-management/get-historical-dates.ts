@@ -14,7 +14,7 @@ export class GetHistoricalDates extends BaseTool {
                 description: 'Project Tool: Returns standard comparison dates (e.g., yesterday, last month, etc.) available for reporting.',
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
-                    site_engine_id: z.number().int().describe('Search engine ID filter'),
+                    site_engine_id: z.number().int().optional().describe('Search engine ID filter'),
                 },
                 annotations: this.annotations('read'),
             },

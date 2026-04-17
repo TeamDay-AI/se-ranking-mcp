@@ -3,10 +3,11 @@ export const instructions = `This server exposes SE Ranking's SEO APIs as MCP to
 - DATA_*  — SEO analytics on any domain (no prior setup). Covers backlinks, domain/competitor analysis, keyword research, SERP tasks, website audits, AI-search visibility, and account/credit info.
 - PROJECT_* — Operations on projects the user owns in their SE Ranking account. Covers rank tracking, keyword/competitor/backlink management inside projects, marketing plans, sub-accounts, and AIRT (AI Result Tracker) prompts.
 
-Authentication
+Authentication — two separate tokens, NOT interchangeable
 - Data tools require DATA_API_TOKEN (fallbacks: SERANKING_DATA_API_TOKEN, SERANKING_API_TOKEN).
-- Project tools require PROJECT_API_TOKEN (fallback: SERANKING_PROJECT_API_TOKEN).
-- Tokens are separate. Having one does not grant access to the other. If a tool fails with "Missing ... token", the user needs to set the corresponding env var.
+- Project tools require PROJECT_API_TOKEN (fallback: SERANKING_PROJECT_API_TOKEN). A Data token does not authenticate Project calls.
+- SE Ranking's Docker quickstart sets only SERANKING_API_TOKEN — that covers Data tools only. To use any PROJECT_* tool, PROJECT_API_TOKEN must be set explicitly.
+- If a tool fails with "Missing ... token", set the env var named in the error.
 
 Rate limits (enforce client-side pacing)
 - Data API: 10 requests/second.

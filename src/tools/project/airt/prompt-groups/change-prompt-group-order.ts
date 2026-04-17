@@ -1,4 +1,5 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 
 import { ApiType, BaseTool } from '../../../base-tool.js';
@@ -27,6 +28,12 @@ export class ChangePromptGroupOrder extends BaseTool {
                 after_id?: number;
             }) => {
                 const { site_id, group_id, ...body } = params;
+                if ((body.before_id == null) === (body.after_id == null)) {
+                    throw new McpError(
+                        ErrorCode.InvalidParams,
+                        'Provide exactly one of before_id or after_id.',
+                    );
+                }
                 return this.makeJsonPostRequest(
                     `/sites/${site_id}/airt/prompt-groups/${group_id}/order`,
                     body,
