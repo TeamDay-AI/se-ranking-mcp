@@ -15,7 +15,7 @@ export class GetPromptAnswer extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Site ID'),
                     llm_id: z.number().int().describe('LLM Engine ID'),
-                    prompt_llm_id: z.number().int().describe('Prompt ID returned by /prompts or /prompts/rankings'),
+                    prompt_llm_id: z.number().int().describe('Prompt ID — pass the `k2site_llm_id` value from /prompts. The `keyword_id` field in that same response is NOT accepted by this endpoint (returns 404). /prompts/rankings does not expose this ID. In the /answer response the same value is returned as `prompt_llm_id`.'),
                     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Date of the cached answer in YYYY-MM-DD format (defaults to current date)'),
                 },
                 annotations: this.annotations('read'),

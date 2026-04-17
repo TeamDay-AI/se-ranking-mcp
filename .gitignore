@@ -25,7 +25,6 @@ temp-files/
 new-endpoints/
 
 # Claude Code guidance
-CLAUDE.md
 task.md
 task-prompts.md
 
