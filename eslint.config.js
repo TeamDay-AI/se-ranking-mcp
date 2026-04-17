@@ -68,6 +68,19 @@ export default [
       'simple-import-sort/exports': 'warn',
       'import/order': 'off',
 
+      // Project invariant: every MCP tool registration must declare tool annotations
+      // (readOnlyHint / destructiveHint / idempotentHint) via this.annotations(kind).
+      // Prevents regressions where new tools are shipped without an annotations block.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "CallExpression[callee.property.name='registerTool'][callee.object.name='server'] > ObjectExpression:not(:has(> Property[key.name='annotations']))",
+          message:
+            "MCP tool registration must include 'annotations' (use this.annotations('read' | 'write' | 'writeIdempotent' | 'destructive')).",
+        },
+      ],
+
       // hygiene
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'warn',

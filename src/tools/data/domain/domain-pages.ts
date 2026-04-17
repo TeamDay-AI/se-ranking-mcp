@@ -122,6 +122,7 @@ export class GetDomainPages extends BaseTool {
                             'Maximum estimated traffic value (PPC equivalent) for the page to be included in the results.',
                         ),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/v1/domain/pages', this.transformFilterParams(params)),
         );
