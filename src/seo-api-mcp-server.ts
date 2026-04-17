@@ -41,6 +41,9 @@ import { GetDomainKeywordsComparison } from './tools/data/domain/domain-keywords
 import { GetDomainOverviewDatabases } from './tools/data/domain/domain-overview-db.js';
 import { GetDomainOverviewHistory } from './tools/data/domain/domain-overview-history.js';
 import { GetDomainOverviewWorldwide } from './tools/data/domain/domain-overview-worldwide.js';
+import { GetUrlOverviewWorldwide } from './tools/data/domain/domain-overview-worldwide-url.js';
+import { GetDomainPages } from './tools/data/domain/domain-pages.js';
+import { GetDomainSubdomains } from './tools/data/domain/domain-subdomains.js';
 import { ExportKeywords } from './tools/data/keywords/keywords-export.js';
 import { GetLongTailKeywords } from './tools/data/keywords/keywords-longtail.js';
 import { GetKeywordQuestions } from './tools/data/keywords/keywords-questions.js';
@@ -238,12 +241,15 @@ export class SeoApiMcpServer {
     GetBacklinksExportStatus,
     GetDomainOverviewDatabases,
     GetDomainOverviewWorldwide,
+    GetUrlOverviewWorldwide,
     GetDomainOverviewHistory,
     GetDomainKeywords,
     GetDomainAdsByKeyword,
     GetDomainAdsByDomain,
     GetDomainCompetitors,
     GetDomainKeywordsComparison,
+    GetDomainPages,
+    GetDomainSubdomains,
     GetSimilarKeywords,
     GetRelatedKeywords,
     GetLongTailKeywords,
