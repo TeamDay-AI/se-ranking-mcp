@@ -18,6 +18,7 @@ export class AddTag extends BaseTool {
                     urls: z.array(z.string()).optional().describe('List of links the tag is added to'),
                     domains: z.array(z.string()).optional().describe('List of domains the tag is added to'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number; name: string; urls?: string[]; domains?: string[] }) => 
                 // POST /sites/{site_id}/url-tags

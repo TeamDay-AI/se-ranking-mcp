@@ -18,6 +18,7 @@ export class AddPlanTask extends BaseTool {
                     text: z.string().describe('Task description'),
                     for_all: z.boolean().optional().describe('Apply task to all projects'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number; title: string; text: string; for_all?: boolean }) => {
                 const { site_id, ...body } = params;

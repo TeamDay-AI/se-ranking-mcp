@@ -62,6 +62,7 @@ export class GetBacklinksRaw extends BaseTool {
                             'Number of backlinks per referring domain to return. If omitted, returns all.',
                         ),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/v1/backlinks/raw', params),
         );

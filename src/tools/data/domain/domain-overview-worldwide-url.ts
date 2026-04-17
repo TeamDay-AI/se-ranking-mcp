@@ -28,6 +28,7 @@ export class GetUrlOverviewWorldwide extends BaseTool {
                             'A comma-separated list of metrics to include in the response. Accepted values: `keywords`, `traffic`, `price`.',
                         ),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/v1/domain/overview/worldwide/url', params),
         );

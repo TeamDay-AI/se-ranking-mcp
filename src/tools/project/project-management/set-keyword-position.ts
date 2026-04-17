@@ -19,6 +19,7 @@ export class SetKeywordPosition extends BaseTool {
                     site_engine_id: z.number().int().describe('Project search engine ID'),
                     position: z.number().int().min(0).max(200).describe('Position from 0 to 200 (0 means not found)'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => 
                 // PUT https://api4.seranking.com/sites/{site_id}/position/

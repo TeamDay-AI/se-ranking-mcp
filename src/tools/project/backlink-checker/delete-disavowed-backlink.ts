@@ -16,6 +16,7 @@ export class DeleteDisavowedBacklink extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     disavow_link_id: z.number().int().describe('Disavowed backlink ID to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; disavow_link_id: number }) =>
                 this.makeDeleteRequest(`/backlink-disavow/${params.site_id}`, { id: params.disavow_link_id }),

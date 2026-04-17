@@ -16,6 +16,7 @@ export class UpdateBacklinkImportSettings extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     gsc_autoimport: z.boolean().describe('Enable or disable auto import from GSC'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; gsc_autoimport: boolean }) => {
                 const { site_id, ...body } = params;

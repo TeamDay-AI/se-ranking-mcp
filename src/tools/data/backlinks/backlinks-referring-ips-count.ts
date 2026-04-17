@@ -30,6 +30,7 @@ export class GetReferringIpsCount extends BaseTool {
           // Let's assume single target first.
           mode: z.enum(['domain', 'host', 'url']).optional().default('host'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/referring-ips/count', params),
     );

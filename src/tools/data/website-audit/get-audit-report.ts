@@ -17,6 +17,7 @@ export class GetAuditReport extends BaseTool {
             .int()
             .describe('Unique identifier of the audit for which to retrieve the report.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/report', params),
     );

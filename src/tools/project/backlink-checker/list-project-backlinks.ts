@@ -17,6 +17,7 @@ export class ListProjectBacklinks extends BaseTool {
                     limit: z.number().int().max(1000).optional().describe('Total number of links (max 1000)'),
                     offset: z.number().int().optional().describe('Offset value for pagination'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number; limit?: number; offset?: number }) => {
                 const { site_id, ...queryParams } = params;

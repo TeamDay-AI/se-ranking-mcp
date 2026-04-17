@@ -14,6 +14,7 @@ export class GetDomainAuthority extends BaseTool {
         inputSchema: {
           target: z.string().describe('Aim of the request: root domain, host, or URL.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/authority/domain', params),
     );

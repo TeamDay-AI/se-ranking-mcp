@@ -15,6 +15,7 @@ export class DeleteProjectGroup extends BaseTool {
                 inputSchema: {
                     group_id: z.number().int().describe('ID of the project group to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async ({ group_id }: { group_id: number }) => this.makeDeleteRequest(`/site-groups/${group_id}`, {}),
         );

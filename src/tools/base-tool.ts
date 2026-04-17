@@ -1,15 +1,14 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { ErrorCode, McpError, type ToolAnnotations } from '@modelcontextprotocol/sdk/types.js';
 
-import {
-  DATA_API_BASE,
-  PROJECT_API_BASE,
-} from '../constants.js';
+import { DATA_API_BASE, PROJECT_API_BASE } from '../constants.js';
 
 export enum ApiType {
   DATA = 'DATA',
   PROJECT = 'PROJECT',
 }
+
+export type ToolKind = 'read' | 'write' | 'writeIdempotent' | 'destructive';
 
 let tokenProvider: (() => string) | null = null;
 
@@ -19,7 +18,9 @@ export function setTokenProvider(provider: (() => string) | null) {
 
 export abstract class BaseTool {
   private readonly MISSING_TOKEN_MESSAGE = (type: ApiType) =>
-    `Missing ${type === ApiType.DATA ? 'DATA_API_TOKEN' : 'PROJECT_API_TOKEN'}.`;
+    type === ApiType.DATA
+      ? 'Missing DATA_API_TOKEN. Set DATA_API_TOKEN (or fallbacks SERANKING_DATA_API_TOKEN, SERANKING_API_TOKEN).'
+      : 'Missing PROJECT_API_TOKEN. Set PROJECT_API_TOKEN (or SERANKING_PROJECT_API_TOKEN). The Project API requires a separate token from the Data API; SERANKING_API_TOKEN alone is not sufficient.';
 
   abstract registerTool(server: McpServer): void;
 
@@ -38,6 +39,20 @@ export abstract class BaseTool {
 
   protected toolName(name: string): string {
     return `${this.apiType}_${name}`;
+  }
+
+  protected annotations(kind: ToolKind): ToolAnnotations {
+    const base: ToolAnnotations = { openWorldHint: false };
+    switch (kind) {
+      case 'read':
+        return { ...base, readOnlyHint: true, idempotentHint: true };
+      case 'write':
+        return { ...base, readOnlyHint: false, destructiveHint: false, idempotentHint: false };
+      case 'writeIdempotent':
+        return { ...base, readOnlyHint: false, destructiveHint: false, idempotentHint: true };
+      case 'destructive':
+        return { ...base, readOnlyHint: false, destructiveHint: true, idempotentHint: true };
+    }
   }
 
   protected log(
@@ -162,6 +177,59 @@ export abstract class BaseTool {
     return this.executeRequest(url, { method: 'GET' });
   }
 
+  protected async makeBinaryGetRequest(
+    path: string,
+    params: Record<string, unknown>,
+    mimeType?: string,
+  ) {
+    const query = this.getUrlSearchParamsFromParams(params);
+    const url = `${this.getBaseUrl()}${path}?${query.toString()}`;
+    return this.executeBinaryRequest(url, { method: 'GET' }, mimeType);
+  }
+
+  private async executeBinaryRequest(url: string, init: RequestInit, mimeTypeHint?: string) {
+    const token = this.getToken();
+    if (!token) {
+      throw new McpError(ErrorCode.InvalidRequest, this.MISSING_TOKEN_MESSAGE(this.apiType));
+    }
+
+    const headers = new Headers(init.headers);
+    headers.set('Authorization', `Token ${token}`);
+    init.headers = headers;
+
+    try {
+      const res = await fetch(url, init);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new McpError(
+          ErrorCode.InternalError,
+          `API error (${res.status} ${res.statusText}). URL: ${url}\nBody: ${errorText}`,
+        );
+      }
+      const buffer = await res.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString('base64');
+      const mimeType = mimeTypeHint ?? res.headers.get('content-type') ?? 'application/octet-stream';
+      return {
+        content: [
+          {
+            type: 'resource' as const,
+            resource: {
+              uri: url,
+              mimeType,
+              blob: base64,
+            },
+          },
+        ],
+      };
+    } catch (err: any) {
+      if (err instanceof McpError) throw err;
+      throw new McpError(
+        ErrorCode.InternalError,
+        `Request failed: ${err?.message || String(err)}\nURL: ${url}`,
+      );
+    }
+  }
+
   protected async makePostRequest(
     path: string,
     queryParams: Record<string, unknown>,
@@ -190,6 +258,11 @@ export abstract class BaseTool {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+  }
+
+  protected async makeBodylessPostRequest(path: string) {
+    const url = `${this.getBaseUrl()}${path}`;
+    return this.executeRequest(url, { method: 'POST' });
   }
 
   protected async makePatchRequest(
@@ -228,6 +301,9 @@ export abstract class BaseTool {
       throw new McpError(ErrorCode.InvalidRequest, this.MISSING_TOKEN_MESSAGE(this.apiType));
     }
 
+    // SE Ranking's OpenAPI declares `token` as a query parameter, but we send it as an
+    // Authorization header: secrets in URLs leak into access/proxy logs, referrers, and
+    // error-reporting payloads. The live API accepts both; keep the header.
     const headers = new Headers(init.headers);
     headers.set('Authorization', `Token ${token}`);
     init.headers = headers;
@@ -257,20 +333,38 @@ export abstract class BaseTool {
     }
 
     let pretty = text;
+    let parsed: unknown;
+    let parsedOk = false;
 
     try {
-      const json = JSON.parse(text);
-      pretty = JSON.stringify(json, null, 2);
+      parsed = JSON.parse(text);
+      pretty = JSON.stringify(parsed, null, 2);
+      parsedOk = true;
     } catch (err: any) {
       this.log(
         'warning',
         `Failed to pretty-print JSON response: ${err?.message || String(err)}. Response text: ${text}`,
       );
-      // If it's not JSON, we just return the text as is, or maybe we should fail if we expect JSON?
-      // The original code just returned the text if it failed to parse/pretty-print.
     }
 
-    return { content: [{ type: 'text' as const, text: pretty }] };
+    const result: {
+      content: { type: 'text'; text: string }[];
+      structuredContent?: Record<string, unknown>;
+    } = {
+      content: [{ type: 'text' as const, text: pretty }],
+    };
+
+    // MCP structuredContent must be an object. Pass objects through; wrap arrays as { data: [...] };
+    // skip primitives and null since they can't be represented as Record<string, unknown>.
+    if (parsedOk && parsed !== null) {
+      if (Array.isArray(parsed)) {
+        result.structuredContent = { data: parsed };
+      } else if (typeof parsed === 'object') {
+        result.structuredContent = parsed as Record<string, unknown>;
+      }
+    }
+
+    return result;
   }
 
   private getUrlSearchParamsFromParams(queryParams: Record<string, unknown>) {
@@ -297,9 +391,16 @@ export abstract class BaseTool {
     for (const [key, value] of Object.entries(formParams || {})) {
       if (value === undefined || value === null) continue;
 
-      if (Array.isArray(value)) {
+      if (value instanceof Blob) {
+        form.append(key, value);
+      } else if (Array.isArray(value)) {
         for (const v of value) {
-          if (v !== undefined && v !== null) form.append(key, String(v));
+          if (v === undefined || v === null) continue;
+          if (v instanceof Blob) {
+            form.append(key, v);
+          } else {
+            form.append(key, String(v));
+          }
         }
       } else {
         form.append(key, String(value));

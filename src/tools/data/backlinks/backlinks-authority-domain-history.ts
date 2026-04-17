@@ -21,6 +21,7 @@ export class GetDomainAuthorityHistory extends BaseTool {
             .default('by_day')
             .describe('Granularity at which to return data: by_day, by_week, or by_month.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/authority/domain/history', params),
     );

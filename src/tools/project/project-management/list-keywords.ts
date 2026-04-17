@@ -16,6 +16,7 @@ export class ListKeywords extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     site_engine_id: z.number().int().optional().describe('Search engine ID (optional). If passed, first_check_date will be returned.'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => 
                 // GET https://api4.seranking.com/sites/{site_id}/keywords

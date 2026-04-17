@@ -20,19 +20,20 @@ export class AddKeywords extends BaseTool {
                                 keyword: z.string(),
                                 group_id: z.number().int().optional(),
                                 target_url: z.string().optional(),
-                                is_strict: z.literal(0).or(z.literal(1)).optional(),
+                                is_strict: z.boolean().optional(),
                                 comment: z.string().optional(),
                                 site_engine_ids: z.array(z.number().int()).optional(),
                             }),
                         )
                         .describe('List of keywords to add'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ site_id, keywords }: { site_id: number; keywords: Array<{
                 keyword: string;
                 group_id?: number;
                 target_url?: string;
-                is_strict?: 0 | 1;
+                is_strict?: boolean;
                 comment?: string;
                 site_engine_ids?: number[];
             }> }) =>

@@ -16,6 +16,7 @@ export class DeleteLlmEngine extends BaseTool {
                     site_id: z.number().int().describe('Site ID'),
                     id: z.number().int().describe('LLM Engine ID'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; id: number }) =>
                 this.makeDeleteRequest(`/sites/${params.site_id}/airt/llm/${params.id}`, {}),

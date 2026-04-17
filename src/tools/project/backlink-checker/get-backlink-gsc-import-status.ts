@@ -16,6 +16,7 @@ export class GetBacklinkGscImportStatus extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     token: z.string().describe('Import task token obtained from runBacklinkGscImport'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number; token: string }) => {
                 const { site_id, token } = params;

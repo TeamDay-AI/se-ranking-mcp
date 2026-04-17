@@ -18,6 +18,7 @@ export class GetSeoPotential extends BaseTool {
                     lead_price: z.number().optional().describe('Estimated income from one client'),
                     conversion_rate: z.number().optional().describe('Conversion to sales rate'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number; top_n?: number; lead_price?: number; conversion_rate?: number }) => {
                 const { site_id, ...queryParams } = params;

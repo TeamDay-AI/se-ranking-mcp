@@ -16,9 +16,10 @@ export class ProjectDeleteAudit extends BaseTool {
                 inputSchema: {
                     audit_id: z.number().int().describe('Unique identifier of the audit to delete.'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { audit_id: number }) =>
-                this.makeJsonPostRequest(`/audit/${params.audit_id}/delete`, {}),
+                this.makeBodylessPostRequest(`/audit/${params.audit_id}/delete`),
         );
     }
 }

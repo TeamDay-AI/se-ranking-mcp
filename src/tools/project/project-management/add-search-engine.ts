@@ -24,6 +24,7 @@ export class AddSearchEngine extends BaseTool {
                     featured_snippet: z.enum(['0', '1']).optional().describe('Take Featured snippet into account (1 – take into account, 0 – don’t take into account)'),
                     region_id: z.number().int().optional().describe('Region ID (refer to getSerpLocations)'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => 
                 // POST https://api4.seranking.com/sites/{site_id}/search-engines

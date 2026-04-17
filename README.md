@@ -229,7 +229,9 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 
 | Module | Tool Name | Description |
 | :--- | :--- | :--- |
-| SERP | `DATA_getSerpHtmlDump` | Retrieves the raw HTML dump of a completed SERP task as a ZIP file. |
+| account | `DATA_getCreditBalance` | Get current Data API credit balance and plan details. |
+| account | `DATA_getSubscription` | Get information about the current Data API subscription. |
+| SERP | `DATA_getSerpHtmlDump` | Retrieves the raw HTML dump of a completed SERP task as a ZIP file (returned as an MCP embedded resource, `application/zip`). |
 | SERP | `DATA_getSerpLocations` | Retrieves a list of available locations for SERP analysis. |
 | SERP | `DATA_getSerpResults` | Runs a SERP query and returns results. Creates task, polls until complete, and returns organic/ads/featured snippets (standard) or all SERP types including AI Overview, Maps, Reviews (advanced). |
 | SERP | `DATA_getSerpTaskAdvancedResults` | Retrieves the status or advanced results of a specific SERP task. |
@@ -237,6 +239,7 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | SERP | `DATA_getSerpTasks` | Retrieves a list of all SERP tasks added to the queue in the last 24 hours. |
 | ai search | `DATA_getAiDiscoverBrand` | Identifies and returns the brand name associated with a given target domain, subdomain, or URL. |
 | ai search | `DATA_getAiOverview` | Retrieves a high-level overview of a domain's performance in AI search engines. |
+| ai search | `DATA_getAiOverviewLeaderboard` | Returns the AI Overview visibility leaderboard for a market — which domains appear most often in AI-search answers for tracked prompts. |
 | ai search | `DATA_getAiPromptsByBrand` | Retrieves a list of prompts where the specified brand is mentioned in AI search results. |
 | ai search | `DATA_getAiPromptsByTarget` | Retrieves a list of prompts (queries) that mention the specified target in AI search results. |
 | backlinks | `DATA_exportBacklinksData` | Retrieves large-scale backlinks asynchronously, returning a task ID to check status later. |
@@ -253,6 +256,7 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | backlinks | `DATA_getCumulativeBacklinksHistory` | Returns live backlinks count for every day within the specified date range. |
 | backlinks | `DATA_getDistributionOfDomainAuthority` | Returns distribution of Domain InLink Rank of all domains referencing a target. |
 | backlinks | `DATA_getDomainAuthority` | Returns the domain InLink Rank (Domain Authority) of the target page's root domain. |
+| backlinks | `DATA_getDomainAuthorityHistory` | Returns the historical time-series of domain InLink Rank for a target domain. |
 | backlinks | `DATA_getNewLostBacklinksCount` | Returns count of (newly) found or lost backlinks for every day in the date range. |
 | backlinks | `DATA_getNewLostRefDomainsCount` | Returns count of referring domains found or lost in the date range, by day. |
 | backlinks | `DATA_getPageAuthority` | Returns the InLink Rank (Page Authority) for a target URL. |
@@ -265,7 +269,7 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | backlinks | `DATA_listNewLostReferringDomains` | Returns referring domains found or lost in the specified date range. |
 | domain analysis | `DATA_getDomainAdsByDomain` | Retrieves paid ads for a specific domain. |
 | domain analysis | `DATA_getDomainAdsByKeyword` | Retrieves paid ads for a specific keyword. |
-| domain analysis | `DATA_getDomainCompetitors` | Retrieves a list of organic or paid competitors for a domain. |
+| domain analysis | `DATA_getDomainCompetitors` | Retrieves up to 500 organic or paid competitors for a target domain, sorted by shared keyword count. |
 | domain analysis | `DATA_getDomainKeywords` | Retrieves keywords for which a domain ranks in organic or paid search. |
 | domain analysis | `DATA_getDomainKeywordsComparison` | Compares keyword rankings of two websites. Find common keywords or keyword gaps. |
 | domain analysis | `DATA_getDomainOverviewDatabases` | Fetch domain overview by database. |
@@ -297,9 +301,29 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 
 | Module | Tool Name | Description |
 | :--- | :--- | :--- |
-| account | `PROJECT_getAccountBalance` | Get the current account balance including currency and currency code. |
-| account | `PROJECT_getSubscription` | Get information about the current user subscription. |
 | account | `PROJECT_getUserProfile` | Get information about the currently logged in user. |
+| AIRT — brands | `PROJECT_getSiteBrand` | Get the brand name configured for an AI Result Tracker site. |
+| AIRT — brands | `PROJECT_saveSiteBrand` | Set the brand name for an AI Result Tracker site. |
+| AIRT — llm engines | `PROJECT_createLlmEngine` | Add an LLM engine (e.g. ChatGPT, Perplexity, Google AI Overview, Gemini) for an AIRT site. |
+| AIRT — llm engines | `PROJECT_deleteLlmEngine` | Remove an LLM engine from an AIRT site. |
+| AIRT — llm engines | `PROJECT_getLlmEngine` | Get configuration of a specific LLM engine. |
+| AIRT — llm engines | `PROJECT_getLlmStatistics` | Get AIRT engine statistics (prompt hits, brand mentions) for a site. |
+| AIRT — llm engines | `PROJECT_getLlmStatus` | Get real-time status of LLM answer generation for an AIRT site. |
+| AIRT — llm engines | `PROJECT_listLlmEngines` | List all LLM engines configured for an AIRT site. |
+| AIRT — llm engines | `PROJECT_updateLlmEngine` | Partial update of an LLM engine (region_name, lang_code). |
+| AIRT — prompts | `PROJECT_addPrompts` | Add a batch of tracked prompts to an AIRT prompt group. |
+| AIRT — prompts | `PROJECT_deletePrompts` | Delete specific tracked prompts. |
+| AIRT — prompts | `PROJECT_getPromptAnswer` | Get the full LLM answer captured for a specific tracked prompt. |
+| AIRT — prompts | `PROJECT_getPromptsRankings` | Get ranking statistics (brand mentions, competitor mentions) for tracked prompts. |
+| AIRT — prompts | `PROJECT_listPrompts` | List tracked prompts for an AIRT site, optionally filtered by prompt group. |
+| AIRT — prompt groups | `PROJECT_changePromptGroupOrder` | Reorder prompt groups within an AIRT site. |
+| AIRT — prompt groups | `PROJECT_createPromptGroup` | Create a new prompt group for an AIRT site. |
+| AIRT — prompt groups | `PROJECT_deleteAllPromptsInGroup` | Delete all prompts inside a specified prompt group. |
+| AIRT — prompt groups | `PROJECT_deletePromptGroup` | Delete a prompt group. |
+| AIRT — prompt groups | `PROJECT_listPromptGroups` | List all prompt groups for an AIRT site. |
+| AIRT — prompt groups | `PROJECT_movePromptsBetweenGroups` | Move prompts from one group to another. |
+| AIRT — prompt groups | `PROJECT_movePromptsToGroup` | Move selected prompts into a specified group. |
+| AIRT — prompt groups | `PROJECT_updatePromptGroup` | Rename a prompt group. |
 | analytics | `PROJECT_getGoogleSearchConsole` | Get popular queries from Google Search Console for a website. |
 | analytics | `PROJECT_getSeoPotential` | Assess potential traffic volume, traffic cost, and potential customers for a website. |
 | backlink checker | `PROJECT_addDisavowedBacklinks` | Add a list of URLs to the disavowed backlinks list. |
@@ -349,6 +373,8 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | project management | `PROJECT_deleteSearchEngine` | Delete a search engine from a project. |
 | project management | `PROJECT_getAdsStats` | Get total number of top and bottom advertisements by day. |
 | project management | `PROJECT_getHistoricalDates` | Returns standard comparison dates available for reporting. |
+| project management | `PROJECT_getChart` | Get daily visibility / average-position / keywords-in-top-N time-series for a project, suitable for charts. |
+| project management | `PROJECT_getCheckDates` | Get the list of dates on which position checks were run for a project. |
 | project management | `PROJECT_getKeywordStats` | Get keyword ranking statistics for a specified time period. |
 | project management | `PROJECT_getSearchEngines` | Get a list of search engines employed by a project. |
 | project management | `PROJECT_getSummary` | Get a project's summary statistics. |
@@ -356,6 +382,7 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | project management | `PROJECT_listProjects` | Get a list of all user projects. |
 | project management | `PROJECT_runPositionCheck` | Run a ranking position check for keywords or entire project. |
 | project management | `PROJECT_setKeywordPosition` | Manually set position for a project's keyword. |
+| project management | `PROJECT_updateKeyword` | Update keyword settings (target URL, tags, group) for a project keyword. |
 | project management | `PROJECT_updateProject` | Change/update project settings. |
 | project management | `PROJECT_updateSearchEngine` | Update an existing search engine in a project. |
 | sub-accounts | `PROJECT_createSubAccount` | Create a new sub-account. |
@@ -375,6 +402,27 @@ Replace the `DATA_API_TOKEN` and `PROJECT_API_TOKEN` placeholder values with you
 | url tags | `PROJECT_deleteTag` | Delete a tag. |
 | url tags | `PROJECT_listTags` | Get a list of landing page tags added to domains and/or links. |
 | url tags | `PROJECT_updateTag` | Add tags to a domain and/or link, replacing previously added tags. |
+| website audit | `PROJECT_createAudit` | Launch a website audit for a domain with full settings (crawl sources, limits, thresholds, schedule, `disabled_issues`, `disallow_ext`). |
+| website audit | `PROJECT_listAudits` | List all website audits for the account with pagination, search, and date filters. |
+| website audit | `PROJECT_getAuditStatus` | Real-time status of a specific audit (queued, processing, finished, cancelled, expired). |
+| website audit | `PROJECT_getAuditReport` | Full detailed report for a completed audit — health score, domain properties, section-by-section breakdown. |
+| website audit | `PROJECT_getCrawledPages` | Paginated list of all URLs found during the audit. |
+| website audit | `PROJECT_getAuditPagesByIssue` | Paginated list of URLs affected by a specific issue within an audit. |
+| website audit | `PROJECT_getIssuesByUrl` | All issues (errors, warnings, notices) found on a specific page within an audit. |
+| website audit | `PROJECT_getFoundLinks` | Every hyperlink discovered during the audit, with filtering. |
+| website audit | `PROJECT_getAuditHistory` | Historical snapshot of a specific audit run by date. |
+| website audit | `PROJECT_updateAuditTitle` | Change an audit's title (backward-compatible `/audit/{id}/edit`). |
+| website audit | `PROJECT_getAuditSettings` | Read current settings for an existing audit — required before partial updates and for modifying `disabled_issues`. |
+| website audit | `PROJECT_updateAuditSettings` | Partial-update an audit's settings (title, settings object, schedule, disabled_issues). `disabled_issues` / `schedule_wdays` are replace operations. |
+| website audit | `PROJECT_resetAuditSettings` | Reset all audit settings to defaults. Does not remove sitemaps / source-pages lists. |
+| website audit | `PROJECT_listAuditSitemaps` | List sitemap URLs configured as crawl sources for an audit. |
+| website audit | `PROJECT_addAuditSitemap` | Add a sitemap URL as a crawl source. Auto-enables `source_sitemap`. |
+| website audit | `PROJECT_deleteAuditSitemap` | Remove a sitemap from an audit's crawl sources. |
+| website audit | `PROJECT_listAuditSourcePages` | List uploaded custom-page URL lists used as a crawl source. |
+| website audit | `PROJECT_addAuditSourcePages` | Upload a custom list of pages (one URL per line) to crawl. Auto-enables `source_file`. |
+| website audit | `PROJECT_deleteAuditSourcePages` | Remove an uploaded source-pages list from an audit. |
+| website audit | `PROJECT_recheckAudit` | Launch a new crawl of a previously completed audit with the same settings. |
+| website audit | `PROJECT_deleteAudit` | Permanently delete an audit and all associated data. |
 
 ## Available Prompts
 

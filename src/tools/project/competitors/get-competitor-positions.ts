@@ -19,6 +19,7 @@ export class GetCompetitorPositions extends BaseTool {
                     site_engine_id: z.number().optional().describe('Search engine ID. If not specified, data for all search engines will be returned.'),
                     with_serp_features: z.boolean().optional().describe('Google SERP features found in keyword search results'),
                 },
+                annotations: this.annotations('read'),
             },
             async (args: { competitor_id: number; date_from?: string; date_to?: string; site_engine_id?: number; with_serp_features?: boolean }) => {
                 const { competitor_id, ...params } = args;

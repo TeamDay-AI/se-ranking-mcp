@@ -27,6 +27,7 @@ export class GetAuditPagesByIssue extends BaseTool {
             .default(0)
             .describe('Starting position (offset) for the list of URLs.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/issue-pages', params),
     );

@@ -11,7 +11,7 @@ export class AddProjectBacklink extends BaseTool {
             this.toolName('addProjectBacklink'),
             {
                 title: 'Add Project Backlink',
-                description: 'Project Tool: Add a single backlink to the backlink monitor for a website.',
+                description: 'Project Tool: Add a single backlink to the backlink monitor for a website. Returns `{ id: <backlink_id> }` — this is the dictionary-level `backlink_id` (accepted by `deleteProjectBacklinks` and `moveBacklinksToGroup`). To recheck the backlink, call `listProjectBacklinks` first and use the row-level `id` field (NOT this returned value).',
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
                     url: z.string().url().describe('Backlink URL'),
@@ -20,6 +20,7 @@ export class AddProjectBacklink extends BaseTool {
                     charge_period: z.enum(['onetime', 'monthly', 'quarterly', '6months', 'year']).optional().describe('Payment period'),
                     charge_start: z.string().optional().describe('Payment start date (YYYY-MM-DD)'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 site_id: number;

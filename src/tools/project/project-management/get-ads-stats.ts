@@ -19,6 +19,7 @@ export class GetAdsStats extends BaseTool {
                     site_engine_ids: z.array(z.number().int()).optional().describe('Filter by search engine IDs'),
                     keywords_ids: z.array(z.number().int()).optional().describe('Filter by keyword IDs'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => this.makeGetRequest(`/sites/${site_id}/ads`, params),
         );

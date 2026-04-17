@@ -28,6 +28,7 @@ export class ProjectGetCrawledPages extends BaseTool {
                         .default(0)
                         .describe('Starting position for the list. Default: 0.'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ audit_id, ...params }: { audit_id: number; limit?: number; offset?: number }) =>
                 this.makeGetRequest(`/audit/${audit_id}/pages`, params),

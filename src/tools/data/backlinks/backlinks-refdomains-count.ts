@@ -34,6 +34,7 @@ export class GetTotalRefDomainsCount extends BaseTool {
                         .default('json')
                         .describe('Response format. Default: json.'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params) => this.makeGetRequest('/v1/backlinks/refdomains/count', params),
         );

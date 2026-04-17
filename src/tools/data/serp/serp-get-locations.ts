@@ -24,6 +24,7 @@ export class GetSerpLocations extends BaseTool {
             .optional()
             .describe('Additional data to include in the response. Can be set to "google_ads_location_id".'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/serp/classic/locations', params),
     );

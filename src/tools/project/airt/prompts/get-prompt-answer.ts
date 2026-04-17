@@ -11,13 +11,14 @@ export class GetPromptAnswer extends BaseTool {
             this.toolName('getPromptAnswer'),
             {
                 title: 'Get Prompt Answer',
-                description: 'Project Tool: Retrieve the cached AI answer for a tracked prompt on a given date, including answer text, cited source URLs, detected brand mentions, and (for Google AI Overview engines) top organic URLs. Full text is retained for the last 30 days; presence metrics (sources, brands, organic_urls) remain available for the full history. Does not consume API units.',
+                description: 'Project Tool: Retrieve the cached AI answer for a tracked prompt on a given date, including answer text, cited source URLs, detected brand mentions, and (for Google AI Overview engines) top organic URLs. Answer data is retained for the last year; older dates return 400. Date defaults to the current date and cannot exceed it.',
                 inputSchema: {
                     site_id: z.number().int().describe('Site ID'),
                     llm_id: z.number().int().describe('LLM Engine ID'),
-                    prompt_llm_id: z.number().int().describe('Prompt ID returned by /prompts or /prompts/rankings'),
+                    prompt_llm_id: z.number().int().describe('Prompt ID — pass the `k2site_llm_id` value from /prompts. The `keyword_id` field in that same response is NOT accepted by this endpoint (returns 404). /prompts/rankings does not expose this ID. In the /answer response the same value is returned as `prompt_llm_id`.'),
                     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Date of the cached answer in YYYY-MM-DD format (defaults to current date)'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: {
                 site_id: number;

@@ -10,6 +10,7 @@ export class GetSerpTasks extends BaseTool {
         title: 'List SERP tasks',
         description: 'Data Tool: Retrieves a list of all SERP tasks added to the queue in the last 24 hours.',
         inputSchema: {},
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/serp/classic/tasks', params),
     );

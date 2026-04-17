@@ -16,6 +16,7 @@ export class UpdateKeywordGroup extends BaseTool {
                     group_id: z.number().int().describe('ID of the keyword group to update'),
                     name: z.string().min(1).describe('New keyword group name'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async ({ group_id, name }: { group_id: number; name: string }) => 
                 // PUT /keyword-groups/{group_id}

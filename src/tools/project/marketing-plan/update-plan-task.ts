@@ -18,6 +18,7 @@ export class UpdatePlanTask extends BaseTool {
                     title: z.string().describe('New task title/name'),
                     text: z.string().describe('New task description'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; task_id: string; title: string; text: string }) => {
                 const { site_id, ...body } = params;

@@ -19,6 +19,7 @@ export class CreateLlmEngine extends BaseTool {
                     region_name: z.string().optional().describe('Specific region/locality name (e.g. "New York, NY, USA")'),
                     lang_code: z.string().optional().describe('Language code (ISO 639-1, e.g. "en")'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: {
                 site_id: number;

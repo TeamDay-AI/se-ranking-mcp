@@ -17,6 +17,7 @@ export class ListDisavowedBacklinks extends BaseTool {
                     limit: z.number().int().optional().describe('Number of disavowed backlinks to return'),
                     offset: z.number().int().optional().describe('Offset for pagination'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number; limit?: number; offset?: number }) => {
                 const { site_id, ...queryParams } = params;

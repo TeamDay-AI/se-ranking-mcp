@@ -20,6 +20,7 @@ export class GetDistributionOfDomainAuthority extends BaseTool {
             .default('host')
             .describe('Mode of aggregation: domain (unique domains) or host (unique hosts).'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/authority/domain/distribution', params),
     );

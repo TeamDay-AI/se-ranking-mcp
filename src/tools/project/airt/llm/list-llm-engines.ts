@@ -15,6 +15,7 @@ export class ListLlmEngines extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Site ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { site_id: number }) =>
                 this.makeGetRequest(`/sites/${params.site_id}/airt/llm`, {}),

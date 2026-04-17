@@ -16,6 +16,7 @@ export class CreateBacklinkGroup extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     name: z.string().describe('Name for the new backlink group'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number; name: string }) => {
                 const { site_id, name } = params;

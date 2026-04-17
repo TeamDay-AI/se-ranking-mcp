@@ -23,6 +23,7 @@ export class GetNewLostRefDomainsCount extends BaseTool {
           date_from: z.string().optional().describe('Start date in YYYY-MM-DD format.'),
           date_to: z.string().optional().describe('End date in YYYY-MM-DD format.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/backlinks/refdomains/history/count', params),
     );

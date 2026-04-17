@@ -17,6 +17,7 @@ export class DeletePrompts extends BaseTool {
                     llm_id: z.number().int().describe('LLM Engine ID'),
                     k2site_llm_ids: z.array(z.number().int()).min(1).describe('Array of k2site_llm_id values to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (params: { site_id: number; llm_id: number; k2site_llm_ids: number[] }) =>
                 this.makeJsonDeleteRequest(`/sites/${params.site_id}/airt/llm/${params.llm_id}/prompts`, { k2site_llm_ids: params.k2site_llm_ids }),

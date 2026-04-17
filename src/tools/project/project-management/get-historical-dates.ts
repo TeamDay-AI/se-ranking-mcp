@@ -14,8 +14,9 @@ export class GetHistoricalDates extends BaseTool {
                 description: 'Project Tool: Returns standard comparison dates (e.g., yesterday, last month, etc.) available for reporting.',
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
-                    site_engine_id: z.number().int().describe('Search engine ID filter'),
+                    site_engine_id: z.number().int().optional().describe('Search engine ID filter'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id, ...params }: { site_id: number;[key: string]: any }) => 
                 // GET https://api4.seranking.com/sites/{site_id}/historicalDates

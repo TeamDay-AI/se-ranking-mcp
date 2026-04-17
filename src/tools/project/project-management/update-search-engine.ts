@@ -24,6 +24,7 @@ export class UpdateSearchEngine extends BaseTool {
                     featured_snippet: z.enum(['0', '1']).optional().describe('Take Featured snippet into account (1 – take into account, 0 – don’t take into account)'),
                     region_id: z.number().int().optional().describe('Region ID (refer to getSerpLocations)'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async ({ site_id, site_engine_id, ...params }: { site_id: number; site_engine_id: number;[key: string]: any }) => 
                 // PUT https://api4.seranking.com/sites/{site_id}/search-engines/{site_engine_id}

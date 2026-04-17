@@ -14,6 +14,7 @@ export class UpdateAuditTitle extends BaseTool {
           audit_id: z.number().int().describe('Unique identifier of the audit to update.'),
           title: z.string().max(300).describe('New title for the audit report.'),
         },
+        annotations: this.annotations('writeIdempotent'),
       },
       async (params) => {
         const { audit_id, title } = params;

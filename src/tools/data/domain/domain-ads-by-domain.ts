@@ -54,6 +54,7 @@ export class GetDomainAdsByDomain extends BaseTool {
               'The maximum number of domains (advertising on the keyword) to return per page.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/domain/ads', params),
     );

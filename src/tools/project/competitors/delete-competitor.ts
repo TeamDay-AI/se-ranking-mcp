@@ -15,6 +15,7 @@ export class DeleteCompetitor extends BaseTool {
                 inputSchema: {
                     competitor_id: z.number().describe('Incorrect competitor id'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async (args: { competitor_id: number }) => this.makeDeleteRequest(`/competitors/${args.competitor_id}`, {}),
         );

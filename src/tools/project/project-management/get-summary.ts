@@ -15,6 +15,7 @@ export class GetSummary extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id }: { site_id: number }) => this.makeGetRequest(`/sites/${site_id}/stat`, {}),
         );

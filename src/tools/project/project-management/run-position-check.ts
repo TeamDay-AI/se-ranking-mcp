@@ -25,6 +25,7 @@ export class RunPositionCheck extends BaseTool {
                         .optional()
                         .describe('Array of specific keywords to check. If provided, site_engine_id param is ignored.'),
                 },
+                annotations: this.annotations('write'),
             },
             async ({ site_id, ...params }: {
                 site_id: number;

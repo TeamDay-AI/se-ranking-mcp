@@ -106,6 +106,7 @@ export class GetDomainKeywordsComparison extends BaseTool {
             .default('asc')
             .describe('Specifies the sort order for the results.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/domain/keywords/comparison', params),
     );

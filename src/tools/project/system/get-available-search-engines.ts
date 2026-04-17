@@ -14,8 +14,9 @@ export class GetAvailableSearchEngines extends BaseTool {
                 inputSchema: {
                     // No parameters required for this endpoint
                 },
+                annotations: this.annotations('read'),
             },
-            async () => 
+            async () =>
                 // Endpoint: GET /system/search-engines
                  this.makeGetRequest('/system/search-engines', {})
             ,

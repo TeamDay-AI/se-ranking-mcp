@@ -14,6 +14,7 @@ export class GetAuditStatus extends BaseTool {
         inputSchema: {
           audit_id: z.number().int().describe('Unique identifier of the audit to check.'),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/site-audit/audits/status', params),
     );

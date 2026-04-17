@@ -16,6 +16,7 @@ export class DeleteSearchEngine extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     site_engine_id: z.number().int().describe('Unique search engine ID within the project to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async ({ site_id, site_engine_id }: { site_id: number; site_engine_id: number }) => 
                 // DELETE https://api4.seranking.com/sites/{site_id}/search-engines/{site_engine_id}

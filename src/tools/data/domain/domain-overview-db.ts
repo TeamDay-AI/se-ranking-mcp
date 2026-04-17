@@ -37,6 +37,7 @@ export class GetDomainOverviewDatabases extends BaseTool {
               'Specific URL to analyze instead of the root domain. If provided, the domain parameter is ignored.',
             ),
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/domain/overview/db', params),
     );

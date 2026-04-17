@@ -56,6 +56,7 @@ export class GetAiPromptsByBrand extends BaseTool {
 
           ...AISearchFilterObject,
         },
+        annotations: this.annotations('read'),
       },
       async (params) => this.makeGetRequest('/v1/ai-search/prompts-by-brand', this.transformFilterParams(params)),
     );

@@ -15,6 +15,7 @@ export class CreateProjectGroup extends BaseTool {
                 inputSchema: {
                     name: z.string().min(1).describe('Name of the project group to be added'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { name: string }) => this.makeJsonPostRequest('/site-groups', params),
         );

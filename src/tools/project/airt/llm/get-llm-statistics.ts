@@ -19,6 +19,7 @@ export class GetLlmStatistics extends BaseTool {
                     to: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('End date (YYYY-MM-DD format)'),
                     top: z.number().int().min(0).max(100).optional().describe('Top N positions to analyze (0-100, 0 = all positions)'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: {
                 site_id: number;

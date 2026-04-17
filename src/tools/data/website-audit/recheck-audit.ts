@@ -19,6 +19,7 @@ export class RecheckAudit extends BaseTool {
             .enum(['standard', 'advanced'])
             .describe('Type of the audit to recheck (Standard or Advanced).'),
         },
+        annotations: this.annotations('write'),
       },
       async (params) => {
         const { audit_id, type } = params;

@@ -15,6 +15,7 @@ export class ListKeywordGroups extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('ID of the project'),
                 },
+                annotations: this.annotations('read'),
             },
             async ({ site_id }: { site_id: number }) => 
                 // GET /keyword-groups/{site_id}

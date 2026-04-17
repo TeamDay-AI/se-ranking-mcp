@@ -15,8 +15,9 @@ export class GetSearchEngines extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Unique website ID'),
                 },
+                annotations: this.annotations('read'),
             },
-            async ({ site_id }: { site_id: number }) => 
+            async ({ site_id }: { site_id: number }) =>
                 // GET https://api4.seranking.com/sites/{site_id}/search-engines
                  this.makeGetRequest(`/sites/${site_id}/search-engines`, {})
             ,

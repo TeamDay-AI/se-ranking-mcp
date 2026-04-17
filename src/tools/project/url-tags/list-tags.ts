@@ -15,8 +15,9 @@ export class ListTags extends BaseTool {
                 inputSchema: {
                     site_id: z.number().int().describe('Website ID'),
                 },
+                annotations: this.annotations('read'),
             },
-            async (params: { site_id: number }) => 
+            async (params: { site_id: number }) =>
                 // GET /sites/{site_id}/url-tags
                  this.makeGetRequest(`/sites/${params.site_id}/url-tags`, {})
             ,

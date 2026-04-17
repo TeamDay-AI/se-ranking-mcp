@@ -16,6 +16,7 @@ export class ListSubAccounts extends BaseTool {
                     limit: z.number().int().optional().describe('Display limit per page, default 100'),
                     offset: z.number().int().optional().describe('Selection offset'),
                 },
+                annotations: this.annotations('read'),
             },
             async (params: { limit?: number; offset?: number }) =>
                 this.makeGetRequest('/users', params),

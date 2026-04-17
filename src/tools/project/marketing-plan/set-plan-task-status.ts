@@ -17,6 +17,7 @@ export class SetPlanTaskStatus extends BaseTool {
                     task_id: z.string().describe('Task ID to update'),
                     checked: z.boolean().describe('Task completion status (true = completed)'),
                 },
+                annotations: this.annotations('writeIdempotent'),
             },
             async (params: { site_id: number; task_id: string; checked: boolean }) => {
                 const { site_id, ...body } = params;

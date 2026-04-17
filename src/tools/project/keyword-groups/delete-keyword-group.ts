@@ -15,6 +15,7 @@ export class DeleteKeywordGroup extends BaseTool {
                 inputSchema: {
                     group_id: z.number().int().describe('ID of the keyword group to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async ({ group_id }: { group_id: number }) => 
                 // DELETE /keyword-groups/{group_id}

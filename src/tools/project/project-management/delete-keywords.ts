@@ -16,6 +16,7 @@ export class DeleteKeywords extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     keywords_ids: z.array(z.number().int()).describe('IDs of keywords to delete'),
                 },
+                annotations: this.annotations('destructive'),
             },
             async ({ site_id, keywords_ids }: { site_id: number; keywords_ids: number[] }) => 
                 // DELETE https://api4.seranking.com/sites/{site_id}/keywords?keywords_ids[]=1...

@@ -16,6 +16,7 @@ export class AddDisavowedBacklinks extends BaseTool {
                     site_id: z.number().int().describe('Unique website ID'),
                     list: z.array(z.string().url()).describe('Array of backlink URLs to disavow'),
                 },
+                annotations: this.annotations('write'),
             },
             async (params: { site_id: number; list: string[] }) => {
                 const { site_id, list } = params;
