@@ -19,7 +19,7 @@ export class ProjectDeleteAudit extends BaseTool {
                 annotations: this.annotations('destructive'),
             },
             async (params: { audit_id: number }) =>
-                this.makeJsonPostRequest(`/audit/${params.audit_id}/delete`, {}),
+                this.makeBodylessPostRequest(`/audit/${params.audit_id}/delete`),
         );
     }
 }

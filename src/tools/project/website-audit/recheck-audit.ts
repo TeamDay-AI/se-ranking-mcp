@@ -19,7 +19,7 @@ export class ProjectRecheckAudit extends BaseTool {
                 annotations: this.annotations('write'),
             },
             async (params: { audit_id: number }) =>
-                this.makeJsonPostRequest(`/audit/${params.audit_id}/recheck`, {}),
+                this.makeBodylessPostRequest(`/audit/${params.audit_id}/recheck`),
         );
     }
 }

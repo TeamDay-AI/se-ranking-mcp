@@ -18,7 +18,7 @@ export class RunBacklinkGscImport extends BaseTool {
                 annotations: this.annotations('write'),
             },
             async (params: { site_id: number }) =>
-                this.makeJsonPostRequest(`/backlinks/${params.site_id}/import-gsc`, {}),
+                this.makeBodylessPostRequest(`/backlinks/${params.site_id}/import-gsc`),
         );
     }
 }
