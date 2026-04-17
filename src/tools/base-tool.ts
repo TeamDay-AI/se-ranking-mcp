@@ -177,6 +177,59 @@ export abstract class BaseTool {
     return this.executeRequest(url, { method: 'GET' });
   }
 
+  protected async makeBinaryGetRequest(
+    path: string,
+    params: Record<string, unknown>,
+    mimeType?: string,
+  ) {
+    const query = this.getUrlSearchParamsFromParams(params);
+    const url = `${this.getBaseUrl()}${path}?${query.toString()}`;
+    return this.executeBinaryRequest(url, { method: 'GET' }, mimeType);
+  }
+
+  private async executeBinaryRequest(url: string, init: RequestInit, mimeTypeHint?: string) {
+    const token = this.getToken();
+    if (!token) {
+      throw new McpError(ErrorCode.InvalidRequest, this.MISSING_TOKEN_MESSAGE(this.apiType));
+    }
+
+    const headers = new Headers(init.headers);
+    headers.set('Authorization', `Token ${token}`);
+    init.headers = headers;
+
+    try {
+      const res = await fetch(url, init);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new McpError(
+          ErrorCode.InternalError,
+          `API error (${res.status} ${res.statusText}). URL: ${url}\nBody: ${errorText}`,
+        );
+      }
+      const buffer = await res.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString('base64');
+      const mimeType = mimeTypeHint ?? res.headers.get('content-type') ?? 'application/octet-stream';
+      return {
+        content: [
+          {
+            type: 'resource' as const,
+            resource: {
+              uri: url,
+              mimeType,
+              blob: base64,
+            },
+          },
+        ],
+      };
+    } catch (err: any) {
+      if (err instanceof McpError) throw err;
+      throw new McpError(
+        ErrorCode.InternalError,
+        `Request failed: ${err?.message || String(err)}\nURL: ${url}`,
+      );
+    }
+  }
+
   protected async makePostRequest(
     path: string,
     queryParams: Record<string, unknown>,
@@ -205,6 +258,11 @@ export abstract class BaseTool {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+  }
+
+  protected async makeBodylessPostRequest(path: string) {
+    const url = `${this.getBaseUrl()}${path}`;
+    return this.executeRequest(url, { method: 'POST' });
   }
 
   protected async makePatchRequest(
@@ -333,9 +391,16 @@ export abstract class BaseTool {
     for (const [key, value] of Object.entries(formParams || {})) {
       if (value === undefined || value === null) continue;
 
-      if (Array.isArray(value)) {
+      if (value instanceof Blob) {
+        form.append(key, value);
+      } else if (Array.isArray(value)) {
         for (const v of value) {
-          if (v !== undefined && v !== null) form.append(key, String(v));
+          if (v === undefined || v === null) continue;
+          if (v instanceof Blob) {
+            form.append(key, v);
+          } else {
+            form.append(key, String(v));
+          }
         }
       } else {
         form.append(key, String(value));

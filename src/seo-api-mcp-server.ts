@@ -179,17 +179,26 @@ import { DeleteTag } from './tools/project/url-tags/delete-tag.js';
 import { ListTags } from './tools/project/url-tags/list-tags.js';
 import { UpdateTag } from './tools/project/url-tags/update-tag.js';
 // Website Audit (Project API)
+import { ProjectAddAuditSitemap } from './tools/project/website-audit/add-audit-sitemap.js';
+import { ProjectAddAuditSourcePages } from './tools/project/website-audit/add-audit-source-pages.js';
 import { ProjectCreateAudit } from './tools/project/website-audit/create-audit.js';
 import { ProjectDeleteAudit } from './tools/project/website-audit/delete-audit.js';
+import { ProjectDeleteAuditSitemap } from './tools/project/website-audit/delete-audit-sitemap.js';
+import { ProjectDeleteAuditSourcePages } from './tools/project/website-audit/delete-audit-source-pages.js';
 import { ProjectGetAuditHistory } from './tools/project/website-audit/get-audit-history.js';
 import { ProjectGetAuditPagesByIssue } from './tools/project/website-audit/get-audit-pages-by-issue.js';
 import { ProjectGetAuditReport } from './tools/project/website-audit/get-audit-report.js';
+import { ProjectGetAuditSettings } from './tools/project/website-audit/get-audit-settings.js';
 import { ProjectGetAuditStatus } from './tools/project/website-audit/get-audit-status.js';
 import { ProjectGetCrawledPages } from './tools/project/website-audit/get-crawled-pages.js';
 import { ProjectGetFoundLinks } from './tools/project/website-audit/get-found-links.js';
 import { ProjectGetIssuesByUrl } from './tools/project/website-audit/get-issues-by-url.js';
+import { ProjectListAuditSitemaps } from './tools/project/website-audit/list-audit-sitemaps.js';
+import { ProjectListAuditSourcePages } from './tools/project/website-audit/list-audit-source-pages.js';
 import { ProjectListAudits } from './tools/project/website-audit/list-audits.js';
 import { ProjectRecheckAudit } from './tools/project/website-audit/recheck-audit.js';
+import { ProjectResetAuditSettings } from './tools/project/website-audit/reset-audit-settings.js';
+import { ProjectUpdateAuditSettings } from './tools/project/website-audit/update-audit-settings.js';
 import { ProjectUpdateAuditTitle } from './tools/project/website-audit/update-audit-title.js';
 
 
@@ -383,6 +392,15 @@ export class SeoApiMcpServer {
     ProjectGetFoundLinks,
     ProjectGetAuditHistory,
     ProjectUpdateAuditTitle,
+    ProjectGetAuditSettings,
+    ProjectUpdateAuditSettings,
+    ProjectResetAuditSettings,
+    ProjectListAuditSitemaps,
+    ProjectAddAuditSitemap,
+    ProjectDeleteAuditSitemap,
+    ProjectListAuditSourcePages,
+    ProjectAddAuditSourcePages,
+    ProjectDeleteAuditSourcePages,
     ProjectDeleteAudit,
     ProjectRecheckAudit,
   ];
