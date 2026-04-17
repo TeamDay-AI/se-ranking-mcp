@@ -16,7 +16,7 @@ export class GetSerpHtmlDump extends BaseTool {
       {
         title: 'Get SERP HTML Dump',
         description:
-          'Data Tool: Retrieves the raw HTML dump of a completed SERP task as a ZIP file. Returns binary ZIP data containing the SERP HTML page(s). Useful for debugging, archiving, or parsing the actual SERP page content.',
+          'Data Tool: Retrieves the raw HTML dump of a completed SERP task as a ZIP file. Returns the archive as an MCP embedded resource (mimeType=application/zip, base64 blob) containing the SERP HTML page(s). Useful for debugging, archiving, or parsing the actual SERP page content.',
         inputSchema: {
           task_id: z
             .number()
@@ -26,7 +26,8 @@ export class GetSerpHtmlDump extends BaseTool {
         },
         annotations: this.annotations('read'),
       },
-      async (params) => this.makeGetRequest('/v1/serp/classic/tasks/html', params),
+      async (params) =>
+        this.makeBinaryGetRequest('/v1/serp/classic/tasks/html', params, 'application/zip'),
     );
   }
 }

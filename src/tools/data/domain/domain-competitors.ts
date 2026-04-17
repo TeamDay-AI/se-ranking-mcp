@@ -9,7 +9,8 @@ export class GetDomainCompetitors extends BaseTool {
       this.toolName('getDomainCompetitors'),
       {
         title: 'Domain Competitors',
-        description: 'Data Tool: Retrieves a list of organic or paid competitors for a domain.',
+        description:
+          'Data Tool: Retrieves up to 500 competing domains (organic or paid) for a target domain, pre-sorted by shared keyword count (descending). Each row includes common_keywords, domain_relevance, total_keywords, missing_keywords, traffic_sum, price_sum. Upstream API does not support limit, offset, or custom sort — response size is fixed (~60KB for popular domains).',
         inputSchema: {
           source: z
             .string()
@@ -20,26 +21,12 @@ export class GetDomainCompetitors extends BaseTool {
             .string()
             .min(1, 'domain is required')
             .describe('The primary domain for which to find competitors.'),
-          url: z
-            .string()
-            .optional()
-            .describe('A specific URL to find competitors for, instead of the entire domain.'),
           type: z
             .enum(['organic', 'adv'])
             .optional()
             .default('organic')
             .describe(
-              'Specifies whether to find competitors in organic search results or paid search (advertising).',
-            ),
-          stats: z
-            .number()
-            .int()
-            .min(0)
-            .max(1)
-            .optional()
-            .default(0)
-            .describe(
-              'A flag to control the level of detail in the response. If set to “1”, additional statistical parameters are returned for each competitor.',
+              'Whether to return organic or paid-search (advertising) competitors.',
             ),
         },
         annotations: this.annotations('read'),

@@ -62,7 +62,7 @@ const safeTools: LiveToolConfig[] = [
     {
         name: 'GetDomainCompetitors',
         ToolClass: GetDomainCompetitors,
-        payload: { domain: TEST_DOMAIN, source: TEST_SOURCE, limit: 1 },
+        payload: { domain: TEST_DOMAIN, source: TEST_SOURCE },
     },
     {
         name: 'GetDomainKeywords',

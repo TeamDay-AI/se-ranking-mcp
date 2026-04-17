@@ -31,7 +31,7 @@ const safeTools: LiveToolConfig[] = [
     {
         name: 'GetSerpLocations',
         ToolClass: GetSerpLocations,
-        payload: {},
+        payload: { country_code: 'ES', q: 'Barcelona' },
     },
     {
         name: 'GetSerpTasks',

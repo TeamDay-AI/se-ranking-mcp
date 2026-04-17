@@ -20,8 +20,8 @@ export class GetSearchVolume extends BaseTool {
             },
             async (params: { region_id: number; keywords: string[] }) => {
                 const queryParams: Record<string, unknown> = {
-                    regionid: params.region_id,
-                    'keyword[]': params.keywords,
+                    region_id: params.region_id,
+                    keyword: params.keywords,
                 };
                 return this.makeGetRequest('/system/volume', queryParams);
             },
