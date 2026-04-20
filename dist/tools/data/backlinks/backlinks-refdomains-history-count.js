@@ -1,0 +1,22 @@
+import { z } from 'zod';
+import { BaseTool } from '../../base-tool.js';
+export class GetNewLostRefDomainsCount extends BaseTool {
+    registerTool(server) {
+        server.registerTool(this.toolName('getNewLostRefDomainsCount'), {
+            title: 'Get New and Lost Referring Domains Count',
+            description: 'Data Tool: Returns the number of referring domains, at least one backlink from which was newly found or lost in the specified date range, broken down by day.',
+            inputSchema: {
+                target: z.string().describe('Aim of the request: root domain, host, or URL.'),
+                mode: z.enum(['domain', 'host', 'url']).optional().default('host'),
+                new_lost_type: z
+                    .enum(['new', 'lost'])
+                    .optional()
+                    .describe('Indicates whether the count of new or lost refdomain should be returned. Omit for both.'),
+                date_from: z.string().optional().describe('Start date in YYYY-MM-DD format.'),
+                date_to: z.string().optional().describe('End date in YYYY-MM-DD format.'),
+            },
+            annotations: this.annotations('read'),
+        }, async (params) => this.makeGetRequest('/v1/backlinks/refdomains/history/count', params));
+    }
+}
+//# sourceMappingURL=backlinks-refdomains-history-count.js.map

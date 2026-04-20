@@ -1,0 +1,24 @@
+import { z } from 'zod';
+import { BaseTool } from '../../base-tool.js';
+export class GetSerpLocations extends BaseTool {
+    registerTool(server) {
+        server.registerTool(this.toolName('getSerpLocations'), {
+            title: 'SERP locations',
+            description: "Data Tool: Retrieves available locations for SERP analysis. After getting a location_id, use 'getSerpResults' to run SERP queries.",
+            inputSchema: {
+                q: z.string().min(2, 'q is too short (min 2 chars)').describe('Query'),
+                country_code: z
+                    .string()
+                    .min(2, 'country_code is required and must be alpha-2 country code')
+                    .max(2, 'country_code must be alpha-2 country code')
+                    .describe('Alpha-2 country code for the regional prompt database (e.g., us for United States results).'),
+                include: z
+                    .string()
+                    .optional()
+                    .describe('Additional data to include in the response. Can be set to "google_ads_location_id".'),
+            },
+            annotations: this.annotations('read'),
+        }, async (params) => this.makeGetRequest('/v1/serp/classic/locations', params));
+    }
+}
+//# sourceMappingURL=serp-get-locations.js.map

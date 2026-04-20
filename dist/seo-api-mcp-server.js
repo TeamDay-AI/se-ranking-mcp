@@ -1,0 +1,420 @@
+import { Prompts } from './prompts.js';
+import { GetCreditBalance } from './tools/data/account/get-credit-balance.js';
+import { GetSubscription } from './tools/data/account/get-subscription.js';
+import { GetAiDiscoverBrand } from './tools/data/ai-search/ai-search-discover-brand.js';
+import { GetAiOverview } from './tools/data/ai-search/ai-search-overview.js';
+import { GetAiOverviewLeaderboard } from './tools/data/ai-search/ai-search-overview-leaderboard.js';
+import { GetAiPromptsByBrand } from './tools/data/ai-search/ai-search-prompts-by-brand.js';
+import { GetAiPromptsByTarget } from './tools/data/ai-search/ai-search-prompts-by-target.js';
+import { GetAllBacklinks } from './tools/data/backlinks/backlinks-all.js';
+import { GetBacklinksAnchors } from './tools/data/backlinks/backlinks-anchors.js';
+import { GetBacklinksAuthority } from './tools/data/backlinks/backlinks-authority.js';
+import { GetDomainAuthority } from './tools/data/backlinks/backlinks-authority-domain.js';
+import { GetDistributionOfDomainAuthority } from './tools/data/backlinks/backlinks-authority-domain-distribution.js';
+import { GetDomainAuthorityHistory } from './tools/data/backlinks/backlinks-authority-domain-history.js';
+import { GetPageAuthority } from './tools/data/backlinks/backlinks-authority-page.js';
+import { GetPageAuthorityHistory } from './tools/data/backlinks/backlinks-authority-page-history.js';
+import { GetBacklinksCount } from './tools/data/backlinks/backlinks-count.js';
+import { ExportBacklinksData } from './tools/data/backlinks/backlinks-export.js';
+import { GetBacklinksExportStatus } from './tools/data/backlinks/backlinks-export-status.js';
+import { ListNewLostBacklinks } from './tools/data/backlinks/backlinks-history.js';
+import { GetNewLostBacklinksCount } from './tools/data/backlinks/backlinks-history-count.js';
+import { GetCumulativeBacklinksHistory } from './tools/data/backlinks/backlinks-history-cumulative.js';
+import { GetBacklinksIndexedPages } from './tools/data/backlinks/backlinks-indexed-pages.js';
+import { GetBacklinksMetrics } from './tools/data/backlinks/backlinks-metrics.js';
+import { GetBacklinksRaw } from './tools/data/backlinks/backlinks-raw.js';
+import { GetBacklinksRefDomains } from './tools/data/backlinks/backlinks-refdomains.js';
+import { GetTotalRefDomainsCount } from './tools/data/backlinks/backlinks-refdomains-count.js';
+import { ListNewLostReferringDomains } from './tools/data/backlinks/backlinks-refdomains-history.js';
+import { GetNewLostRefDomainsCount } from './tools/data/backlinks/backlinks-refdomains-history-count.js';
+import { GetReferringIps } from './tools/data/backlinks/backlinks-referring-ips.js';
+import { GetReferringIpsCount } from './tools/data/backlinks/backlinks-referring-ips-count.js';
+import { GetReferringSubnetsCount } from './tools/data/backlinks/backlinks-referring-subnets-count.js';
+import { GetBacklinksSummary } from './tools/data/backlinks/backlinks-summary.js';
+import { GetDomainAdsByDomain } from './tools/data/domain/domain-ads-by-domain.js';
+import { GetDomainAdsByKeyword } from './tools/data/domain/domain-ads-by-keyword.js';
+import { GetDomainCompetitors } from './tools/data/domain/domain-competitors.js';
+import { GetDomainKeywords } from './tools/data/domain/domain-keywords.js';
+import { GetDomainKeywordsComparison } from './tools/data/domain/domain-keywords-comparison.js';
+import { GetDomainOverviewDatabases } from './tools/data/domain/domain-overview-db.js';
+import { GetDomainOverviewHistory } from './tools/data/domain/domain-overview-history.js';
+import { GetDomainOverviewWorldwide } from './tools/data/domain/domain-overview-worldwide.js';
+import { GetUrlOverviewWorldwide } from './tools/data/domain/domain-overview-worldwide-url.js';
+import { GetDomainPages } from './tools/data/domain/domain-pages.js';
+import { GetDomainSubdomains } from './tools/data/domain/domain-subdomains.js';
+import { ExportKeywords } from './tools/data/keywords/keywords-export.js';
+import { GetLongTailKeywords } from './tools/data/keywords/keywords-longtail.js';
+import { GetKeywordQuestions } from './tools/data/keywords/keywords-questions.js';
+import { GetRelatedKeywords } from './tools/data/keywords/keywords-related.js';
+import { GetSimilarKeywords } from './tools/data/keywords/keywords-similar.js';
+import { GetSerpHtmlDump } from './tools/data/serp/serp-get-html-dump.js';
+import { GetSerpLocations } from './tools/data/serp/serp-get-locations.js';
+import { GetSerpResults } from './tools/data/serp/serp-get-results.js';
+import { GetSerpTaskAdvancedResults } from './tools/data/serp/serp-get-task-advanced-results.js';
+import { GetSerpTaskResults } from './tools/data/serp/serp-get-task-results.js';
+import { GetSerpTasks } from './tools/data/serp/serp-get-tasks.js';
+import { CreateAdvancedAudit } from './tools/data/website-audit/create-advanced-audit.js';
+import { CreateStandardAudit } from './tools/data/website-audit/create-standard-audit.js';
+import { DeleteAudit } from './tools/data/website-audit/delete-audit.js';
+import { GetAuditHistory } from './tools/data/website-audit/get-audit-history.js';
+import { GetAuditPagesByIssue } from './tools/data/website-audit/get-audit-pages-by-issue.js';
+import { GetAuditReport } from './tools/data/website-audit/get-audit-report.js';
+import { GetAuditStatus } from './tools/data/website-audit/get-audit-status.js';
+import { GetCrawledPages } from './tools/data/website-audit/get-crawled-pages.js';
+import { GetFoundLinks } from './tools/data/website-audit/get-found-links.js';
+import { GetIssuesByUrl } from './tools/data/website-audit/get-issues-by-url.js';
+import { ListAudits } from './tools/data/website-audit/list-audits.js';
+import { RecheckAudit } from './tools/data/website-audit/recheck-audit.js';
+import { UpdateAuditTitle } from './tools/data/website-audit/update-audit-title.js';
+// Account Tools
+import { GetUserProfile } from './tools/project/account/get-user-profile.js';
+// AIRT (AI Result Tracker)
+import { GetSiteBrand } from './tools/project/airt/brands/get-site-brand.js';
+import { SaveSiteBrand } from './tools/project/airt/brands/save-site-brand.js';
+import { CreateLlmEngine } from './tools/project/airt/llm/create-llm-engine.js';
+import { DeleteLlmEngine } from './tools/project/airt/llm/delete-llm-engine.js';
+import { GetLlmEngine } from './tools/project/airt/llm/get-llm-engine.js';
+import { GetLlmStatistics } from './tools/project/airt/llm/get-llm-statistics.js';
+import { GetLlmStatus } from './tools/project/airt/llm/get-llm-status.js';
+import { ListLlmEngines } from './tools/project/airt/llm/list-llm-engines.js';
+import { UpdateLlmEngine } from './tools/project/airt/llm/update-llm-engine.js';
+import { ChangePromptGroupOrder } from './tools/project/airt/prompt-groups/change-prompt-group-order.js';
+import { CreatePromptGroup } from './tools/project/airt/prompt-groups/create-prompt-group.js';
+import { DeleteAllPromptsInGroup } from './tools/project/airt/prompt-groups/delete-all-prompts-in-group.js';
+import { DeletePromptGroup } from './tools/project/airt/prompt-groups/delete-prompt-group.js';
+import { ListPromptGroups } from './tools/project/airt/prompt-groups/list-prompt-groups.js';
+import { MovePromptsBetweenGroups } from './tools/project/airt/prompt-groups/move-prompts-between-groups.js';
+import { MovePromptsToGroup } from './tools/project/airt/prompt-groups/move-prompts-to-group.js';
+import { UpdatePromptGroup } from './tools/project/airt/prompt-groups/update-prompt-group.js';
+import { AddPrompts } from './tools/project/airt/prompts/add-prompts.js';
+import { DeletePrompts } from './tools/project/airt/prompts/delete-prompts.js';
+import { GetPromptAnswer } from './tools/project/airt/prompts/get-prompt-answer.js';
+import { GetPromptsRankings } from './tools/project/airt/prompts/get-prompts-rankings.js';
+import { ListPrompts } from './tools/project/airt/prompts/list-prompts.js';
+// Analytics Tools
+import { GetGoogleSearchConsole } from './tools/project/analytics/get-google-search-console.js';
+import { GetSeoPotential } from './tools/project/analytics/get-seo-potential.js';
+import { AddDisavowedBacklinks } from './tools/project/backlink-checker/add-disavowed-backlinks.js';
+import { AddProjectBacklink } from './tools/project/backlink-checker/add-project-backlink.js';
+import { CreateBacklinkGroup } from './tools/project/backlink-checker/create-backlink-group.js';
+import { DeleteBacklinkGroup } from './tools/project/backlink-checker/delete-backlink-group.js';
+import { DeleteDisavowedBacklink } from './tools/project/backlink-checker/delete-disavowed-backlink.js';
+import { DeleteProjectBacklinks } from './tools/project/backlink-checker/delete-project-backlinks.js';
+import { GetBacklinkGscImportStatus } from './tools/project/backlink-checker/get-backlink-gsc-import-status.js';
+import { GetBacklinkStats } from './tools/project/backlink-checker/get-backlink-stats.js';
+import { ImportProjectBacklinks } from './tools/project/backlink-checker/import-project-backlinks.js';
+import { ListBacklinkGroups } from './tools/project/backlink-checker/list-backlink-groups.js';
+import { ListDisavowedBacklinks } from './tools/project/backlink-checker/list-disavowed-backlinks.js';
+// Backlink Checker Tools (Project API)
+import { ListProjectBacklinks } from './tools/project/backlink-checker/list-project-backlinks.js';
+import { MoveBacklinksToGroup } from './tools/project/backlink-checker/move-backlinks-to-group.js';
+import { RecheckProjectBacklinks } from './tools/project/backlink-checker/recheck-project-backlinks.js';
+import { RenameBacklinkGroup } from './tools/project/backlink-checker/rename-backlink-group.js';
+import { RunBacklinkGscImport } from './tools/project/backlink-checker/run-backlink-gsc-import.js';
+import { UpdateBacklinkImportSettings } from './tools/project/backlink-checker/update-backlink-import-settings.js';
+// Competitor Tools
+import { AddCompetitor } from './tools/project/competitors/add-competitor.js';
+import { DeleteCompetitor } from './tools/project/competitors/delete-competitor.js';
+import { GetAllCompetitorsMetrics } from './tools/project/competitors/get-all-competitors-metrics.js';
+import { GetCompetitorPositions } from './tools/project/competitors/get-competitor-positions.js';
+import { GetCompetitorTop10 } from './tools/project/competitors/get-competitor-top10.js';
+import { GetCompetitorTop100 } from './tools/project/competitors/get-competitor-top100.js';
+import { ListCompetitors } from './tools/project/competitors/list-competitors.js';
+// Keyword Groups Tools
+import { CreateKeywordGroup } from './tools/project/keyword-groups/create-keyword-group.js';
+import { DeleteKeywordGroup } from './tools/project/keyword-groups/delete-keyword-group.js';
+import { ListKeywordGroups } from './tools/project/keyword-groups/list-keyword-groups.js';
+import { MoveKeywordsToGroup } from './tools/project/keyword-groups/move-keywords-to-group.js';
+import { UpdateKeywordGroup } from './tools/project/keyword-groups/update-keyword-group.js';
+import { AddPlanTask } from './tools/project/marketing-plan/add-plan-task.js';
+import { DeletePlanTask } from './tools/project/marketing-plan/delete-plan-task.js';
+// Marketing Plan Tools
+import { ListPlanItems } from './tools/project/marketing-plan/list-plan-items.js';
+import { SetPlanTaskStatus } from './tools/project/marketing-plan/set-plan-task-status.js';
+import { UpdatePlanTask } from './tools/project/marketing-plan/update-plan-task.js';
+import { CreateProjectGroup } from './tools/project/project-groups/create-project-group.js';
+import { DeleteProjectGroup } from './tools/project/project-groups/delete-project-group.js';
+// Project Groups Tools
+import { ListProjectGroups } from './tools/project/project-groups/list-project-groups.js';
+import { MoveProjectsToGroup } from './tools/project/project-groups/move-projects-to-group.js';
+import { UpdateProjectGroup } from './tools/project/project-groups/update-project-group.js';
+import { AddKeywords } from './tools/project/project-management/add-keywords.js';
+import { AddSearchEngine } from './tools/project/project-management/add-search-engine.js';
+import { CreateProject } from './tools/project/project-management/create-project.js';
+import { DeleteKeywords } from './tools/project/project-management/delete-keywords.js';
+import { DeleteProject } from './tools/project/project-management/delete-project.js';
+import { DeleteSearchEngine } from './tools/project/project-management/delete-search-engine.js';
+import { GetAdsStats } from './tools/project/project-management/get-ads-stats.js';
+import { GetChart } from './tools/project/project-management/get-chart.js';
+import { GetCheckDates } from './tools/project/project-management/get-check-dates.js';
+import { GetHistoricalDates } from './tools/project/project-management/get-historical-dates.js';
+import { GetKeywordStats } from './tools/project/project-management/get-keyword-stats.js';
+import { GetSearchEngines } from './tools/project/project-management/get-search-engines.js';
+import { GetSummary } from './tools/project/project-management/get-summary.js';
+import { ListKeywords } from './tools/project/project-management/list-keywords.js';
+// Project Management Tools
+import { ListProjects } from './tools/project/project-management/list-projects.js';
+import { RunPositionCheck } from './tools/project/project-management/run-position-check.js';
+import { SetKeywordPosition } from './tools/project/project-management/set-keyword-position.js';
+import { UpdateKeyword } from './tools/project/project-management/update-keyword.js';
+import { UpdateProject } from './tools/project/project-management/update-project.js';
+import { UpdateSearchEngine } from './tools/project/project-management/update-search-engine.js';
+import { CreateSubAccount } from './tools/project/sub-accounts/create-sub-account.js';
+import { DeleteSubAccount } from './tools/project/sub-accounts/delete-sub-account.js';
+import { GetSubAccountDetails } from './tools/project/sub-accounts/get-sub-account-details.js';
+import { ListOwnedProjects } from './tools/project/sub-accounts/list-owned-projects.js';
+import { ListSharedProjects } from './tools/project/sub-accounts/list-shared-projects.js';
+// Sub-Account Tools
+import { ListSubAccounts } from './tools/project/sub-accounts/list-sub-accounts.js';
+import { ShareProject } from './tools/project/sub-accounts/share-project.js';
+import { UpdateSubAccount } from './tools/project/sub-accounts/update-sub-account.js';
+import { GetAvailableRegions } from './tools/project/system/get-available-regions.js';
+import { GetAvailableSearchEngines } from './tools/project/system/get-available-search-engines.js';
+// Additional System Tools
+import { GetGoogleLanguages } from './tools/project/system/get-google-languages.js';
+import { GetSearchVolume } from './tools/project/system/get-search-volume.js';
+import { GetVolumeRegions } from './tools/project/system/get-volume-regions.js';
+import { AddTag } from './tools/project/url-tags/add-tag.js';
+import { DeleteTag } from './tools/project/url-tags/delete-tag.js';
+// URL Tags Tools
+import { ListTags } from './tools/project/url-tags/list-tags.js';
+import { UpdateTag } from './tools/project/url-tags/update-tag.js';
+// Website Audit (Project API)
+import { ProjectAddAuditSitemap } from './tools/project/website-audit/add-audit-sitemap.js';
+import { ProjectAddAuditSourcePages } from './tools/project/website-audit/add-audit-source-pages.js';
+import { ProjectCreateAudit } from './tools/project/website-audit/create-audit.js';
+import { ProjectDeleteAudit } from './tools/project/website-audit/delete-audit.js';
+import { ProjectDeleteAuditSitemap } from './tools/project/website-audit/delete-audit-sitemap.js';
+import { ProjectDeleteAuditSourcePages } from './tools/project/website-audit/delete-audit-source-pages.js';
+import { ProjectGetAuditHistory } from './tools/project/website-audit/get-audit-history.js';
+import { ProjectGetAuditPagesByIssue } from './tools/project/website-audit/get-audit-pages-by-issue.js';
+import { ProjectGetAuditReport } from './tools/project/website-audit/get-audit-report.js';
+import { ProjectGetAuditSettings } from './tools/project/website-audit/get-audit-settings.js';
+import { ProjectGetAuditStatus } from './tools/project/website-audit/get-audit-status.js';
+import { ProjectGetCrawledPages } from './tools/project/website-audit/get-crawled-pages.js';
+import { ProjectGetFoundLinks } from './tools/project/website-audit/get-found-links.js';
+import { ProjectGetIssuesByUrl } from './tools/project/website-audit/get-issues-by-url.js';
+import { ProjectListAuditSitemaps } from './tools/project/website-audit/list-audit-sitemaps.js';
+import { ProjectListAuditSourcePages } from './tools/project/website-audit/list-audit-source-pages.js';
+import { ProjectListAudits } from './tools/project/website-audit/list-audits.js';
+import { ProjectRecheckAudit } from './tools/project/website-audit/recheck-audit.js';
+import { ProjectResetAuditSettings } from './tools/project/website-audit/reset-audit-settings.js';
+import { ProjectUpdateAuditSettings } from './tools/project/website-audit/update-audit-settings.js';
+import { ProjectUpdateAuditTitle } from './tools/project/website-audit/update-audit-title.js';
+export class SeoApiMcpServer {
+    server;
+    constructor(server) {
+        this.server = server;
+    }
+    dataTools = [
+        GetAiDiscoverBrand,
+        GetAiOverview,
+        GetAiOverviewLeaderboard,
+        GetAiPromptsByBrand,
+        GetAiPromptsByTarget,
+        GetAllBacklinks,
+        GetBacklinksAnchors,
+        GetBacklinksAuthority,
+        GetBacklinksIndexedPages,
+        GetBacklinksRefDomains,
+        GetBacklinksSummary,
+        GetBacklinksMetrics,
+        GetBacklinksRaw,
+        GetBacklinksCount,
+        ListNewLostBacklinks,
+        GetNewLostBacklinksCount,
+        GetTotalRefDomainsCount,
+        GetCumulativeBacklinksHistory,
+        GetReferringIps,
+        GetReferringIpsCount,
+        GetReferringSubnetsCount,
+        GetDistributionOfDomainAuthority,
+        GetPageAuthority,
+        GetPageAuthorityHistory,
+        GetDomainAuthority,
+        GetDomainAuthorityHistory,
+        ListNewLostReferringDomains,
+        GetNewLostRefDomainsCount,
+        ExportBacklinksData,
+        GetBacklinksExportStatus,
+        GetDomainOverviewDatabases,
+        GetDomainOverviewWorldwide,
+        GetUrlOverviewWorldwide,
+        GetDomainOverviewHistory,
+        GetDomainKeywords,
+        GetDomainAdsByKeyword,
+        GetDomainAdsByDomain,
+        GetDomainCompetitors,
+        GetDomainKeywordsComparison,
+        GetDomainPages,
+        GetDomainSubdomains,
+        GetSimilarKeywords,
+        GetRelatedKeywords,
+        GetLongTailKeywords,
+        GetKeywordQuestions,
+        ExportKeywords,
+        CreateStandardAudit,
+        CreateAdvancedAudit,
+        UpdateAuditTitle,
+        ListAudits,
+        GetAuditReport,
+        GetAuditStatus,
+        GetCrawledPages,
+        GetAuditPagesByIssue,
+        GetIssuesByUrl,
+        GetFoundLinks,
+        GetAuditHistory,
+        DeleteAudit,
+        RecheckAudit,
+        GetSerpHtmlDump,
+        GetSerpLocations,
+        GetSerpResults,
+        GetSerpTaskAdvancedResults,
+        GetSerpTaskResults,
+        GetSerpTasks,
+        GetSubscription,
+        GetCreditBalance,
+    ];
+    projectTools = [
+        ListProjects,
+        CreateProject,
+        UpdateProject,
+        DeleteProject,
+        GetSummary,
+        GetKeywordStats,
+        GetAdsStats,
+        AddKeywords,
+        DeleteKeywords,
+        RunPositionCheck,
+        GetSearchEngines,
+        ListKeywords,
+        UpdateKeyword,
+        SetKeywordPosition,
+        GetHistoricalDates,
+        GetCheckDates,
+        GetChart,
+        AddSearchEngine,
+        UpdateSearchEngine,
+        DeleteSearchEngine,
+        ListProjectGroups,
+        CreateProjectGroup,
+        UpdateProjectGroup,
+        DeleteProjectGroup,
+        MoveProjectsToGroup,
+        CreateKeywordGroup,
+        UpdateKeywordGroup,
+        DeleteKeywordGroup,
+        ListKeywordGroups,
+        MoveKeywordsToGroup,
+        GetAvailableSearchEngines,
+        GetAvailableRegions,
+        AddCompetitor,
+        ListCompetitors,
+        GetCompetitorPositions,
+        DeleteCompetitor,
+        GetCompetitorTop10,
+        GetCompetitorTop100,
+        GetAllCompetitorsMetrics,
+        ListTags,
+        AddTag,
+        UpdateTag,
+        DeleteTag,
+        // Analytics
+        GetGoogleSearchConsole,
+        GetSeoPotential,
+        // Account
+        GetUserProfile,
+        // Sub-Accounts
+        ListSubAccounts,
+        GetSubAccountDetails,
+        CreateSubAccount,
+        DeleteSubAccount,
+        UpdateSubAccount,
+        ListSharedProjects,
+        ListOwnedProjects,
+        ShareProject,
+        // Additional System
+        GetGoogleLanguages,
+        GetVolumeRegions,
+        GetSearchVolume,
+        // Marketing Plan
+        ListPlanItems,
+        AddPlanTask,
+        UpdatePlanTask,
+        DeletePlanTask,
+        SetPlanTaskStatus,
+        // Backlink Checker (Project API)
+        ListProjectBacklinks,
+        AddProjectBacklink,
+        ImportProjectBacklinks,
+        UpdateBacklinkImportSettings,
+        RunBacklinkGscImport,
+        GetBacklinkGscImportStatus,
+        DeleteProjectBacklinks,
+        RecheckProjectBacklinks,
+        GetBacklinkStats,
+        ListDisavowedBacklinks,
+        AddDisavowedBacklinks,
+        DeleteDisavowedBacklink,
+        ListBacklinkGroups,
+        CreateBacklinkGroup,
+        DeleteBacklinkGroup,
+        RenameBacklinkGroup,
+        MoveBacklinksToGroup,
+        // AIRT (AI Result Tracker)
+        GetSiteBrand,
+        SaveSiteBrand,
+        ListLlmEngines,
+        CreateLlmEngine,
+        GetLlmEngine,
+        UpdateLlmEngine,
+        DeleteLlmEngine,
+        GetLlmStatus,
+        GetLlmStatistics,
+        GetPromptsRankings,
+        GetPromptAnswer,
+        ListPrompts,
+        AddPrompts,
+        DeletePrompts,
+        ListPromptGroups,
+        CreatePromptGroup,
+        UpdatePromptGroup,
+        DeletePromptGroup,
+        ChangePromptGroupOrder,
+        DeleteAllPromptsInGroup,
+        MovePromptsToGroup,
+        MovePromptsBetweenGroups,
+        // Website Audit (Project API)
+        ProjectCreateAudit,
+        ProjectListAudits,
+        ProjectGetAuditStatus,
+        ProjectGetAuditReport,
+        ProjectGetCrawledPages,
+        ProjectGetAuditPagesByIssue,
+        ProjectGetIssuesByUrl,
+        ProjectGetFoundLinks,
+        ProjectGetAuditHistory,
+        ProjectUpdateAuditTitle,
+        ProjectGetAuditSettings,
+        ProjectUpdateAuditSettings,
+        ProjectResetAuditSettings,
+        ProjectListAuditSitemaps,
+        ProjectAddAuditSitemap,
+        ProjectDeleteAuditSitemap,
+        ProjectListAuditSourcePages,
+        ProjectAddAuditSourcePages,
+        ProjectDeleteAuditSourcePages,
+        ProjectDeleteAudit,
+        ProjectRecheckAudit,
+    ];
+    init() {
+        for (const Tool of this.dataTools) {
+            new Tool().register(this.server);
+        }
+        for (const Tool of this.projectTools) {
+            new Tool().register(this.server);
+        }
+        new Prompts().registerPrompts(this.server);
+    }
+}
+//# sourceMappingURL=seo-api-mcp-server.js.map
